@@ -1,0 +1,232 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Notifications
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/home.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/notification.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+</head>
+
+
+<body>
+
+   <header class="notification-header-bar">
+
+    <a
+        href="{% url 'home' %}"
+        class="notification-back-btn"
+        aria-label="Back to Home"
+    >
+        <i class="fa-solid fa-arrow-left"></i>
+    </a>
+
+
+    <div class="notification-header-title">
+
+        <span>
+            Notifications
+        </span>
+
+    </div>
+
+
+    <!-- SAME NOTIFICATION BELL -->
+
+    <a
+        href="{% url 'notifications' %}"
+        class="notification-btn"
+        aria-label="Notifications"
+    >
+
+        <i class="fa-regular fa-bell"></i>
+
+        {% if unread_notification_count > 0 %}
+
+            <span class="notification-badge">
+                {{ unread_notification_count }}
+            </span>
+
+        {% endif %}
+
+    </a>
+
+</header>
+
+    <main class="notifications-page">
+
+        <section class="notifications-header">
+
+            <h1>
+                Your notifications
+            </h1>
+
+            <p>
+                Stay updated with likes, comments, and friend requests.
+            </p>
+
+        </section>
+
+
+        <section class="notifications-list">
+
+            {% for notification in notifications %}
+
+                <a
+                    href="{% url 'notification_redirect' notification.id %}"
+                    class="notification-link"
+                >
+
+                    <article
+                        class="notification-card
+                        {% if not notification.is_read %}
+                            unread
+                        {% endif %}
+                        "
+                    >
+
+                        <!-- SENDER AVATAR -->
+
+                        <div class="notification-avatar">
+
+                            {% if notification.sender.profile_image %}
+
+                                <img
+                                    src="{{ notification.sender.profile_image.url }}"
+                                    alt="{{ notification.sender.name }}"
+                                >
+
+                            {% else %}
+
+                                {{ notification.sender.name|first|upper }}
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- NOTIFICATION CONTENT -->
+
+                        <div class="notification-content">
+
+                            <p>
+
+                                <strong>
+                                    {{ notification.sender.name }}
+                                </strong>
+
+                                {% if notification.notification_type == "like" %}
+
+                                    liked your diary.
+
+                                {% elif notification.notification_type == "comment" %}
+
+                                    commented on your diary.
+
+                                {% elif notification.notification_type == "friend_request" %}
+
+                                    sent you a friend request.
+
+                                {% elif notification.notification_type == "friend_accepted" %}
+
+                                    accepted your friend request.
+
+                                {% elif notification.notification_type == "new_post" %}
+
+                                    created a new diary post.
+
+                                {% endif %}
+
+                            </p>
+
+                            <span class="notification-time">
+
+                                {{ notification.created_at|timesince }} ago
+
+                            </span>
+
+                        </div>
+
+
+                        <!-- NOTIFICATION ICON -->
+
+                        <div class="notification-type-icon">
+
+                            {% if notification.notification_type == "like" %}
+
+                                <i class="fa-solid fa-heart"></i>
+
+                            {% elif notification.notification_type == "comment" %}
+
+                                <i class="fa-solid fa-comment"></i>
+
+                            {% elif notification.notification_type == "friend_request" %}
+
+                                <i class="fa-solid fa-user-plus"></i>
+
+                            {% elif notification.notification_type == "friend_accepted" %}
+
+                                <i class="fa-solid fa-user-check"></i>
+
+                            {% elif notification.notification_type == "new_post" %}
+
+                                <i class="fa-solid fa-book-open"></i>
+
+                            {% endif %}
+
+                        </div>
+
+                    </article>
+
+                </a>
+
+            {% empty %}
+
+                <div class="empty-notifications">
+
+                    <i class="fa-regular fa-bell"></i>
+
+                    <h3>
+                        No notifications yet
+                    </h3>
+
+                    <p>
+                        When someone interacts with you, notifications will appear here.
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

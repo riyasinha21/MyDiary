@@ -1,0 +1,182 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f7f8f6;
+    color: #333;
+}
+
+.search-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 35px 25px;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: #4f7f65;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+.search-page h1 {
+    margin: 25px 0 5px;
+    font-size: 28px;
+}
+
+.search-heading {
+    color: #777;
+    margin-bottom: 30px;
+}
+
+.search-section {
+    margin-bottom: 35px;
+}
+
+.search-section h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.search-section h2 i {
+    margin-right: 7px;
+    color: #4f7f65;
+}
+
+/* PEOPLE */
+
+.people-results {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.person-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+}
+
+.person-avatar,
+.person-avatar-placeholder {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.person-avatar {
+    object-fit: cover;
+}
+
+.person-avatar-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #4f7f65;
+    color: #fff;
+    font-weight: 600;
+}
+
+.person-info h3 {
+    margin: 0 0 4px;
+    font-size: 16px;
+}
+
+.person-info p {
+    margin: 0;
+    color: #777;
+    font-size: 13px;
+}
+
+/* DIARIES */
+
+.diary-results {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.diary-result-card {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    padding: 18px;
+}
+
+.diary-result-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.diary-result-card h3 {
+    margin: 0 0 5px;
+    font-size: 17px;
+}
+
+.diary-author {
+    margin: 0;
+    color: #777;
+    font-size: 13px;
+}
+
+.diary-date {
+    color: #999;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.diary-content {
+    margin: 15px 0 0;
+    color: #666;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+/* EMPTY / NO RESULTS */
+
+.no-results,
+.search-empty {
+    text-align: center;
+    padding: 70px 20px;
+    color: #777;
+}
+
+.no-results i,
+.search-empty i {
+    font-size: 35px;
+    color: #aaa;
+    margin-bottom: 15px;
+}
+
+.no-results h2,
+.search-empty h2 {
+    margin: 10px 0;
+    color: #444;
+}
+
+.no-results p,
+.search-empty p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.person-card {
+    text-decoration: none;
+    color: inherit;
+}

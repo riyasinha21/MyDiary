@@ -1,0 +1,1025 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Diary Home</title>
+
+
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/diary_list.css' %}">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+   
+</head>
+
+<body>
+
+<!-- =========================
+     NAVBAR
+========================== -->
+
+<header class="navbar">
+
+    <!-- =========================
+         LOGO
+    ========================== -->
+
+    <a href="{% url 'home' %}" class="navbar-logo">
+
+        <span class="logo-icon">
+            🌿
+        </span>
+
+        <span class="logo-text">
+            My Diary
+        </span>
+
+    </a>
+
+
+    <!-- =========================
+         NAVIGATION LINKS
+    ========================== -->
+
+    <nav class="navbar-menu">
+
+        <a href="{% url 'home' %}" class="nav-link active">
+            Home
+        </a>
+        
+        <a href="{% url 'diary_list' %}" class="nav-link">
+            My Diary
+        </a>
+
+        <a href="{% url 'community' %}" class="nav-link">
+            Community
+        </a>
+
+        
+
+    </nav>
+
+
+    <!-- =========================
+         RIGHT SIDE
+    ========================== -->
+
+    <div class="navbar-actions">
+
+        <!-- =====================
+             SEARCH
+        ====================== -->
+
+        <form method="GET" action="{% url 'search' %}" class="navbar-search">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="search"
+                name="q"
+                placeholder="Search diaries, people, topics..."
+                aria-label="Search"
+                value="{{ request.GET.q|default:'' }}"
+            >
+
+            <span class="search-shortcut">
+                ⌘K
+            </span>
+
+        </form>
+
+
+        <!-- =====================
+             WRITE MENU
+        ====================== -->
+
+        <div class="write-menu">
+
+            <button
+                type="button"
+                class="write-btn"
+                id="openDiaryModal"
+            >
+
+                <i class="fa-solid fa-plus"></i>
+
+                <span>
+                    Write
+                </span>
+
+
+            </button>
+
+
+        </div>
+
+
+        <!-- =====================
+             NOTIFICATIONS
+        ====================== -->
+
+        <a
+            href="{% url 'notifications' %}"
+            class="notification-btn"
+            aria-label="Notifications"
+        >
+
+            <i class="fa-regular fa-bell"></i>
+
+            {% if unread_notification_count > 0 %}
+
+                <span class="notification-badge">
+                    {{ unread_notification_count }}
+                </span>
+
+            {% endif %}
+
+        </a>
+
+
+        <!-- =====================
+             PROFILE MENU
+        ====================== -->
+
+        <div class="profile-menu">
+
+            <button
+                type="button"
+                class="profile-btn"
+                aria-label="Profile"
+            >
+
+                <span class="profile-avatar">
+                    {% if request.user.profile_image %}
+                        <img
+                            src="{{ request.user.profile_image.url }}"
+                            alt="Profile Photo"
+                        >
+                    {% else %}
+                        {{ request.user.name|first|upper }}
+                    {% endif %}
+                </span>
+
+                <span class="profile-name">
+                    {{ request.user.name }}                         
+                </span>
+
+                <i class="fa-solid fa-chevron-down profile-arrow"></i>
+
+            </button>
+
+            <!-- Profile Dropdown -->
+
+            <div class="profile-dropdown">
+
+
+
+                <!-- Profile Header -->
+
+                <div class="profile-dropdown-header">
+
+                    <span class="profile-avatar large">
+                        {% if request.user.profile_image %}
+                            <img
+                                src="{{ request.user.profile_image.url }}"
+                                alt="Profile Photo"
+                            >
+                        {% else %}
+                            {{ request.user.name|first|upper }}
+                        {% endif %}
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            {{ request.user.name }}
+                        </strong>
+
+                        <small>
+                            {{ request.user.email}}
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="dropdown-divider"></div>
+
+
+                <!-- Profile -->
+
+                <a href="{% url 'profile' %}">
+
+                    <i class="fa-regular fa-user"></i>
+
+                    <span>
+                        View Profile
+                    </span>
+
+                </a>
+
+
+                <!-- Saved -->
+
+                <a href="{% url 'saved_diaries' %}">
+
+                    <i class="fa-regular fa-bookmark"></i>
+
+                    <span>
+                        Saved
+                    </span>
+
+                </a>
+
+
+                <!-- Activity -->
+
+                <a href="{% url 'my_activity' %}">
+
+                    <i class="fa-solid fa-chart-line"></i>
+
+                    <span>
+                        My Activity
+                    </span>
+
+                </a>
+
+
+                <div class="dropdown-divider"></div>
+
+
+                <!-- Settings -->
+
+                <a href="{% url 'settings' %}">
+
+                    <i class="fa-solid fa-gear"></i>
+
+                    <span>
+                        Settings
+                    </span>
+
+                </a>
+
+
+                <!-- Privacy -->
+
+                <a href="{% url 'privacy' %}">
+
+                    <i class="fa-solid fa-shield-halved"></i>
+
+                    <span>
+                        Privacy
+                    </span>
+
+                </a>
+
+
+                <div class="dropdown-divider"></div>
+
+
+                <!-- Logout -->
+
+                <a
+                    href="{% url 'logout' %}"
+                    class="logout-link"
+                >
+
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
+                    <span>
+                        Logout
+                    </span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================
+             MOBILE MENU
+        ====================== -->
+
+        <button
+            type="button"
+            class="mobile-menu-btn"
+            aria-label="Open menu"
+        >
+
+            <i class="fa-solid fa-bars"></i>
+
+        </button>
+
+    </div>
+
+</header>
+
+
+<main class="main-content">
+
+    <!-- ======================================
+         WELCOME SECTION
+    ======================================= -->
+
+    <section class="welcome-section">
+
+        <div class="welcome-text">
+
+            <p class="welcome-date">
+                {% now "l, F d, Y" %}
+            </p>
+
+            <h1>
+                {{ greeting }}, {{ request.user.name }} 👋
+            </h1>
+
+            <p class="welcome-description">
+                A quiet place for your thoughts, memories and moments.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ======================================
+         WRITE DIARY CARD
+    ======================================= -->
+
+    <section class="write-diary-section">
+
+        <div class="write-diary-card">
+
+            <!-- Left Content -->
+
+            <div class="write-diary-content">
+
+                <div class="write-diary-icon">
+                    <i class="fa-solid fa-pen"></i>
+
+                </div>
+
+                <div class="write-diary-text">
+
+                    <h2>
+                        What's on your mind today?
+                    </h2>
+
+                    <p>
+                        Capture your thoughts, memories,
+                        feelings and ideas.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Button -->
+
+            <button
+                type="button"
+                class="write-diary-btn"
+                id="openDiaryFromHome"
+            >
+                <span>
+                    <i class="fa-solid fa-plus"></i>
+                </span>
+
+                Write Today's Diary
+            </button>
+
+        </div>
+
+    </section>
+
+    <!--------------HOME FEED----------->
+<section class="home-feed">
+
+    <div class="diary-page-header">
+
+        <div>
+
+            <p class="page-subtitle">
+                Community feed
+            </p>
+
+            <h1>
+                Latest Diaries
+            </h1>
+
+            <p class="page-description">
+                Discover thoughts and moments shared by the community.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <section class="diary-list">
+
+        {% for diary in public_diaries %}
+
+        <article class="post-card">
+
+            <!-- ==========================
+                 POST HEADER
+            =========================== -->
+
+            <div class="post-header">
+
+                <div class="post-user">
+
+                    <span class="profile-avatar">
+                        {% if diary.user.profile_image %}
+                            <img
+                                src="{{ diary.user.profile_image.url }}"
+                                alt="Profile Photo"
+                            >
+                        {% else %}
+                            {{ diary.user.name|first|upper }}
+                        {% endif %}
+                    </span>
+
+                    <div class="post-user-info">
+
+                        <h4>
+                            {{ diary.user.name }}
+                        </h4>
+
+                        <span>
+                            {{ diary.created_at|date:"F d, Y" }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RIGHT SIDE -->
+
+                <div class="post-header-actions">
+
+
+
+                    <!-- More Menu -->
+
+                    <div class="post-menu">
+
+                        <button
+                            type="button"
+                            class="post-more-btn"
+                            aria-label="More options"
+                        >
+
+                            <i class="fa-solid fa-ellipsis"></i>
+
+                        </button>
+
+
+                        <div class="post-dropdown">
+
+
+                            <!-- Edit + Delete
+                                 Only diary owner -->
+
+                            {% if diary.user == request.user %}
+
+                                <!-- Edit -->
+
+                                <a
+                                    href="{% url 'diary_edit' diary.id %}"
+                                >
+
+                                    <i class="fa-solid fa-pen"></i>
+
+                                    Edit
+
+                                </a>
+
+
+                                <!-- Delete -->
+
+                                <form
+                                    method="POST"
+                                    action="{% url 'diary_delete' diary.id %}"
+                                >
+
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="delete-option"
+                                    >
+
+                                        <i class="fa-solid fa-trash"></i>
+
+                                        Delete
+
+                                    </button>
+
+                                </form>
+
+                            {% endif %}
+
+
+                            <!-- Share -->
+
+                            <button type="button">
+
+                                <i class="fa-solid fa-share-nodes"></i>
+
+                                Share
+
+                            </button>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ==========================
+                 POST BODY
+            =========================== -->
+
+            <div class="post-body">
+
+                <h2>
+                    {{ diary.title }}
+                </h2>
+
+                <p>
+                    {{ diary.content }}
+                </p>
+
+            </div>
+
+
+            <!-- ==========================
+                COMMENTS
+            =========================== -->
+
+            <div
+                class="comments-section"
+                id="comments-{{ diary.id }}"
+            >
+
+                {% for comment in diary.comments.all %}
+
+                    <div class="comment">
+
+                        <div class="comment-avatar">
+                            {{ comment.user.name|first|upper }}
+                        </div>
+
+                        <div class="comment-content">
+
+                            <strong>
+                                {{ comment.user.name }}
+                            </strong>
+
+                            <p>
+                                {{ comment.content }}
+                            </p>
+
+                            <small>
+                                {{ comment.created_at|date:"F d, Y" }}
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                {% empty %}
+
+                    <p class="no-comments">
+                        No comments yet.
+                    </p>
+
+                {% endfor %}
+
+
+                <!-- COMMENT FORM -->
+
+                <form
+                    method="POST"
+                    action="{% url 'diary_comment' diary.id %}"
+                    class="comment-form"
+                >
+
+                    {% csrf_token %}
+
+                    <input
+                        type="text"
+                        name="content"
+                        placeholder="Write a comment..."
+                        required
+                    >
+
+                    <button
+                        type="submit"
+                        class="comment-submit-btn"
+                        aria-label="Submit comment"
+                    >
+
+                        <i class="fa-solid fa-paper-plane"></i>
+
+                    </button>
+
+                </form>
+
+            </div>
+
+
+
+            <!-- ==========================
+                 POST FOOTER
+            =========================== -->
+
+            <div class="post-footer">
+
+
+                <!-- LIKE -->
+
+                <form
+                    method="POST"
+                    action="{% url 'diary_like' diary.id %}"
+                >
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="post-action-btn"
+                        aria-label="Like"
+                    >
+
+                        {% if diary.is_liked %}
+
+                            <i class="fa-solid fa-heart liked"></i>
+
+                        {% else %}
+
+                            <i class="fa-regular fa-heart"></i>
+
+                        {% endif %}
+
+                        <span>
+                            {{ diary.likes.count }}
+                        </span>
+
+                    </button>
+
+                </form>
+
+
+                <!-- COMMENT -->
+
+                <button
+                    type="button"
+                    class="post-action-btn comment-toggle-btn"
+                    data-comments="comments-{{ diary.id }}"
+                    aria-label="Comment"
+                >
+
+                    <i class="fa-regular fa-comment"></i>
+
+                    <span>
+                        {{ diary.comments.count }}
+                    </span>
+
+                </button>
+                
+
+                <!-- BOOKMARK -->
+
+                <form
+                    method="POST"
+                    action="{% url 'diary_bookmark' diary.id %}"
+                >
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="post-action-btn"
+                        aria-label="Save"
+                    >
+
+                        {% if diary.is_bookmarked %}
+
+                            <i class="fa-solid fa-bookmark bookmarked"></i>
+
+                        {% else %}
+
+                            <i class="fa-regular fa-bookmark"></i>
+
+                        {% endif %}
+
+                    </button>
+
+                </form>
+
+
+
+                <!-- SHARE ------------------------
+
+                <button
+                    type="button"
+                    class="post-action-btn post-share-btn"
+                    aria-label="Share"
+                >
+
+                    <i class="fa-solid fa-share-nodes"></i>
+
+                </button>
+                ---------------------------------------------------------->
+
+
+            </div>
+
+
+        </article>
+
+
+        {% empty %}
+
+
+        <!-- ==========================
+             EMPTY STATE
+        =========================== -->
+
+        <div class="empty-diary">
+
+            <div class="empty-icon">
+
+                <i class="fa-solid fa-book-open"></i>
+
+            </div>
+
+            <h2>
+                No public diaries yet
+            </h2>
+
+            <p>
+                Be the first to share something with the community.
+            </p>
+
+        </div>
+
+
+        {% endfor %}
+
+    </section>
+
+</section>
+
+<!-- ==========================================
+     DIARY ENTRY MODAL
+========================================== -->
+
+<div class="diary-modal-overlay" id="diaryModal">
+
+    <div class="diary-modal">
+
+        <!-- Header -->
+        <div class="diary-modal-header">
+
+            <div>
+                <h2>Write a new diary entry</h2>
+                <p>Capture today's thoughts and memories.</p>
+            </div>
+
+            <button
+                type="button"
+                class="diary-modal-close"
+                id="closeDiaryModal"
+                aria-label="Close"
+            >
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+
+        <!-- Form -->
+        <form
+            id="diaryForm"
+            method="POST"
+            action="{% url 'diary_create' %}"
+        >
+
+            {% csrf_token %}
+
+            <!-- Title -->
+            <div class="diary-field diary-title-field">
+
+                <input
+                    type="text"
+                    id="diaryTitle"
+                    name="title"
+                    placeholder="Give your entry a title..."
+                    maxlength="255"
+                    required
+                >
+
+                <small
+                    id="titleError"
+                    class="field-error"
+                ></small>
+
+            </div>
+
+
+            
+<!-- ==========================================
+     DIARY CONTENT
+========================================== -->
+
+<div class="diary-field">
+
+    <!-- Formatting Toolbar -->
+    <div class="diary-toolbar">
+
+        <button
+            type="button"
+            title="Bold"
+            data-command="bold"
+        >
+            <i class="fa-solid fa-bold"></i>
+        </button>
+
+        <button
+            type="button"
+            title="Italic"
+            data-command="italic"
+        >
+            <i class="fa-solid fa-italic"></i>
+        </button>
+
+        <button
+            type="button"
+            title="Underline"
+            data-command="underline"
+        >
+            <i class="fa-solid fa-underline"></i>
+        </button>
+
+        <span class="toolbar-divider"></span>
+
+        <!-- Image -->
+        <button
+            type="button"
+            title="Add image"
+            id="imageBtn"
+        >
+            <i class="fa-regular fa-image"></i>
+        </button>
+
+        <input
+            type="file"
+            id="imageInput"
+            accept="image/*"
+            hidden
+        >
+
+        <!-- Emoji -->
+        <button
+            type="button"
+            title="Add emoji"
+            id="emojiBtn"
+        >
+            <i class="fa-regular fa-face-smile"></i>
+        </button>
+
+    </div>
+
+
+    <!-- Diary Editor -->
+    <textarea
+        id="diaryContent"
+        name="content"
+        class="diary-editor"
+        placeholder="What's on your mind today?"
+        required
+    ></textarea>    
+
+
+    <!-- Word Count -->
+    <div class="word-count">
+        <span id="wordCount">0</span> words
+    </div>
+
+
+    <!-- Content Error -->
+    <small
+        id="contentError"
+        class="field-error"
+    ></small>
+
+</div>
+
+
+            <!-- Options -->
+            <div class="diary-options diary-visibility">
+
+                <!-- Privacy -->
+                <div class="diary-option">
+
+                <i id="visibilityIcon" class="fa-solid fa-lock" ></i>
+
+                <select id="diaryVisibility" name="visibility">
+                    <option value="private">Private</option>
+                    <option value="public">Public</option>
+                </select>
+
+                <small
+                    id="visibilityError"
+                    class="field-error"
+                ></small>
+
+            </div>
+
+
+                <!-- Tags -->
+                <button
+                    type="button"
+                    class="diary-option"
+                >
+
+                    <i class="fa-solid fa-tag"></i>
+
+                    <span>Add Tags</span>
+
+                </button>
+
+
+                <!-- Date -->
+                <div class="diary-option">
+                    <i class="fa-regular fa-calendar"></i>
+
+                    <span id="diaryDate"></span>
+                </div>
+
+            </div>
+
+            <div id="diarySuccess" class="form-success"></div>
+
+            <div id="diaryFormError" class="form-error"></div>
+
+            <!-- Footer -->
+            
+            <div class="diary-modal-footer">
+
+                <button
+                    type="button"
+                    class="save-draft-btn"
+                >
+                    Save Draft
+                </button>
+
+                <button
+                    type="submit"
+                    class="publish-diary-btn"
+                >
+                    <i class="fa-solid fa-paper-plane"></i>
+                    Publish Entry
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+</main>
+
+
+<script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>
+<script src="{% static 'js/diary_list.js' %}"></script>
+<script src="{% static 'js/home.js' %}"></script>
+
+
+</body>
+
+
+</html>

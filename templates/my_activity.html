@@ -1,0 +1,454 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Activity</title>
+
+
+    <!-- CSS -->
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/my_activity.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+====================================================== -->
+
+<header class="activity-header">
+
+
+    <!-- BACK -->
+
+    <a
+        href="{% url 'home' %}"
+        class="activity-back-btn"
+    >
+
+        <i class="fa-solid fa-arrow-left"></i>
+
+        <span>
+            Back
+        </span>
+
+    </a>
+
+
+
+    <!-- TITLE -->
+
+    <div class="activity-header-title">
+
+        <i class="fa-solid fa-chart-line"></i>
+
+        <h2>
+            My Activity
+        </h2>
+
+    </div>
+
+
+
+    <!-- SPACE -->
+
+    <div class="activity-header-space"></div>
+
+
+</header>
+
+
+<main class="activity-page">
+
+
+    <section class="activity-page-intro">
+
+        <p class="activity-subtitle">
+            Your activity
+        </p>
+
+
+        <h1>
+            My Activity
+        </h1>
+
+
+        <p class="activity-description">
+            Keep track of your diaries, likes, comments,
+            bookmarks and connections.
+        </p>
+
+    </section>
+
+
+
+    <!-- =================================================
+         ACTIVITY SUMMARY
+    ================================================== -->
+
+    <section class="activity-summary">
+
+
+        <!-- DIARIES -->
+
+        <div class="activity-summary-card">
+
+            <div class="activity-summary-icon">
+
+                <i class="fa-solid fa-book"></i>
+
+            </div>
+
+
+            <strong>
+                {{ diary_count }}
+            </strong>
+
+
+            <span>
+                Diaries
+            </span>
+
+        </div>
+
+
+
+        <!-- LIKES -->
+
+        <div class="activity-summary-card">
+
+            <div class="activity-summary-icon">
+
+                <i class="fa-regular fa-heart"></i>
+
+            </div>
+
+
+            <strong>
+                {{ like_count }}
+            </strong>
+
+
+            <span>
+                Likes
+            </span>
+
+        </div>
+
+
+
+        <!-- COMMENTS -->
+
+        <div class="activity-summary-card">
+
+            <div class="activity-summary-icon">
+
+                <i class="fa-regular fa-comment"></i>
+
+            </div>
+
+
+            <strong>
+                {{ comment_count }}
+            </strong>
+
+
+            <span>
+                Comments
+            </span>
+
+        </div>
+
+
+
+        <!-- SAVED -->
+
+        <div class="activity-summary-card">
+
+            <div class="activity-summary-icon">
+
+                <i class="fa-regular fa-bookmark"></i>
+
+            </div>
+
+
+            <strong>
+                {{ bookmark_count }}
+            </strong>
+
+
+            <span>
+                Saved
+            </span>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         ACTIVITY SECTION
+    ================================================== -->
+
+    <section class="activity-section">
+
+
+        <!-- SECTION HEADER -->
+
+        <div class="activity-section-header">
+
+            <div>
+
+                <h2>
+                    Recent Activity
+                </h2>
+
+                <p>
+                    Your latest actions on My Diary
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             ACTIVITY LIST
+        ================================================== -->
+
+        <div class="activity-list">
+
+
+            {% for activity in activities %}
+
+
+            <!-- ACTIVITY ITEM -->
+
+            <article class="activity-item">
+
+
+                <!-- ICON -->
+
+                <div class="activity-icon">
+
+
+                    {% if activity.type == "diary" %}
+
+                        <i class="fa-solid fa-book"></i>
+
+
+                    {% elif activity.type == "like" %}
+
+                        <i class="fa-solid fa-heart"></i>
+
+
+                    {% elif activity.type == "comment" %}
+
+                        <i class="fa-solid fa-comment"></i>
+
+
+                    {% elif activity.type == "bookmark" %}
+
+                        <i class="fa-solid fa-bookmark"></i>
+
+
+                    {% elif activity.type == "friend_request" %}
+
+                        <i class="fa-solid fa-user-plus"></i>
+
+
+                    {% elif activity.type == "friend_accepted" %}
+
+                        <i class="fa-solid fa-user-check"></i>
+
+
+                    {% endif %}
+
+
+                </div>
+
+
+
+                <!-- CONTENT -->
+
+                <div class="activity-content">
+
+                    <p>
+
+                        {% if activity.type == "diary" %}
+
+                            You created a new diary
+
+
+                        {% elif activity.type == "like" %}
+
+                            You liked a diary
+
+
+                        {% elif activity.type == "comment" %}
+
+                            You commented on a diary
+
+
+                        {% elif activity.type == "bookmark" %}
+
+                            You saved a diary
+
+
+                        {% elif activity.type == "friend_request" %}
+
+                            You sent a friend request
+
+
+                        {% elif activity.type == "friend_accepted" %}
+
+                            You became friends with
+                            <strong>
+                                {{ activity.friend.name }}
+                            </strong>
+
+
+                        {% endif %}
+
+                    </p>
+
+
+
+                    <!-- DIARY PREVIEW -->
+
+                    {% if activity.diary %}
+
+                        <div class="activity-diary">
+
+
+                            <div class="activity-diary-title">
+
+                                {{ activity.diary.title }}
+
+                            </div>
+
+
+                            <div class="activity-diary-content">
+
+                                {{ activity.diary.content }}
+
+                            </div>
+
+
+                        </div>
+
+                    {% endif %}
+
+
+
+                    <!-- TIME -->
+
+                    <span class="activity-time">
+
+                        {{ activity.created_at|date:"F d, Y • h:i A" }}
+
+                    </span>
+
+
+                </div>
+
+
+
+                <!-- TYPE -->
+
+                <span class="activity-type">
+
+                    {% if activity.type == "diary" %}
+
+                        Diary
+
+                    {% elif activity.type == "like" %}
+
+                        Like
+
+                    {% elif activity.type == "comment" %}
+
+                        Comment
+
+                    {% elif activity.type == "bookmark" %}
+
+                        Saved
+
+                    {% elif activity.type == "friend_accepted" %}
+
+                        Friend
+
+                    {% endif %}
+
+                </span>
+
+
+            </article>
+
+
+            {% empty %}
+
+            
+            <!-- =================================================
+                 EMPTY STATE
+            ================================================== -->
+
+            <div class="empty-activity">
+
+
+                <div class="empty-activity-icon">
+
+                    <i class="fa-solid fa-chart-line"></i>
+
+                </div>
+
+
+                <h2>
+                    No activity yet
+                </h2>
+
+
+                <p>
+                    Your diary entries, likes, comments,
+                    bookmarks and connections will appear here.
+                </p>
+
+
+            </div>
+
+            {% endfor %}
+
+
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+
+</html>

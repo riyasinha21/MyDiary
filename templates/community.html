@@ -1,0 +1,777 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Community</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/home.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/community.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+</head>
+
+<body>
+
+    <!-- ==========================================
+         NAVBAR
+    =========================================== -->
+
+<header class="navbar">
+
+    <!-- =========================
+         LOGO
+    ========================== -->
+
+    <a href="{% url 'home' %}" class="navbar-logo">
+
+        <span class="logo-icon">
+            🌿
+        </span>
+
+        <span class="logo-text">
+            My Diary
+        </span>
+
+    </a>
+
+
+    <!-- =========================
+         NAVIGATION LINKS
+    ========================== -->
+
+    <nav class="navbar-menu">
+
+        <a href="{% url 'home' %}" class="nav-link ">
+            Home
+        </a>
+        
+        <a href="{% url 'diary_list' %}" class="nav-link">
+            My Diary
+        </a>
+
+        <a href="{% url 'community' %}" class="nav-link active">
+            Community
+        </a>
+
+    </nav>
+
+
+    <div class="navbar-actions">
+
+
+        <!-- =====================
+             SEARCH
+        ====================== -->
+
+        <form method="GET" action="{% url 'search' %}" class="navbar-search">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="search"
+                name="q"
+                placeholder="Search diaries, people, topics..."
+                aria-label="Search"
+                value="{{ request.GET.q|default:'' }}"
+            >
+
+            <span class="search-shortcut">
+                ⌘K
+            </span>
+
+        </form>
+
+
+
+        <!-- =====================
+             NOTIFICATIONS
+        ====================== -->
+
+        <a
+            href="{% url 'notifications' %}"
+            class="notification-btn"
+            aria-label="Notifications"
+        >
+
+            <i class="fa-regular fa-bell"></i>
+
+            {% if unread_notification_count > 0 %}
+
+                <span class="notification-badge">
+                    {{ unread_notification_count }}
+                </span>
+
+            {% endif %}
+
+        </a>
+
+
+        <!-- =====================
+             PROFILE MENU
+        ====================== -->
+
+        <div class="profile-menu">
+
+            <button
+                type="button"
+                class="profile-btn"
+                aria-label="Profile"
+            >
+
+                <span class="profile-avatar">
+                    {% if request.user.profile_image %}
+                        <img
+                            src="{{ request.user.profile_image.url }}"
+                            alt="Profile Photo"
+                        >
+                    {% else %}
+                        {{ request.user.name|first|upper }}
+                    {% endif %}
+                </span>
+
+                <span class="profile-name">
+                    {{ request.user.name }}                         
+                </span>
+
+                <i class="fa-solid fa-chevron-down profile-arrow"></i>
+
+            </button>
+
+            <!-- Profile Dropdown -->
+
+            <div class="profile-dropdown">
+
+                <!-- Profile Header -->
+
+                <div class="profile-dropdown-header">
+
+                    <span class="profile-avatar large">
+                        {% if request.user.profile_image %}
+                            <img
+                                src="{{ request.user.profile_image.url }}"
+                                alt="Profile Photo"
+                            >
+                        {% else %}
+                            {{ request.user.name|first|upper }}
+                        {% endif %}
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            {{ request.user.name }}
+                        </strong>
+
+                        <small>
+                            {{ request.user.email}}
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="dropdown-divider"></div>
+
+
+                <!-- Profile -->
+
+                <a href="{% url 'profile' %}">
+
+                    <i class="fa-regular fa-user"></i>
+
+                    <span>
+                        View Profile
+                    </span>
+
+                </a>
+
+
+                <!-- Saved -->
+
+                <a href="{% url 'saved_diaries' %}">
+
+                    <i class="fa-regular fa-bookmark"></i>
+
+                    <span>
+                        Saved
+                    </span>
+
+                </a>
+
+                <!-- Activity -->
+
+                <a href="{% url 'my_activity' %}">
+
+                    <i class="fa-solid fa-chart-line"></i>
+
+                    <span>
+                        My Activity
+                    </span>
+
+                </a>
+
+                <div class="dropdown-divider"></div>
+
+                <!-- Settings -->
+
+                <a href="{% url 'settings' %}">
+
+                    <i class="fa-solid fa-gear"></i>
+
+                    <span>
+                        Settings
+                    </span>
+
+                </a>
+
+
+                <!-- Privacy -->
+
+                <a href="{% url 'privacy' %}">
+
+                    <i class="fa-solid fa-shield-halved"></i>
+
+                    <span>
+                        Privacy
+                    </span>
+
+                </a>
+
+
+                <div class="dropdown-divider"></div>
+
+
+                <!-- Logout -->
+
+                <a
+                    href="{% url 'logout' %}"
+                    class="logout-link"
+                >
+
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
+                    <span>
+                        Logout
+                    </span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- =====================
+             MOBILE MENU
+        ====================== -->
+
+        <button
+            type="button"
+            class="mobile-menu-btn"
+            aria-label="Open menu"
+        >
+
+            <i class="fa-solid fa-bars"></i>
+
+        </button>
+
+    </div>
+
+</header>
+
+
+    <main class="community-page">
+
+
+        <!-- ==========================================
+             COMMUNITY HEADER
+        =========================================== -->
+
+        <section class="community-header">
+
+            <p class="page-subtitle">
+                Community
+            </p>
+
+            <h1>
+                Connect with people
+            </h1>
+
+            <p>
+                Discover people and build your community.
+            </p>
+
+        </section>
+
+        <!-- ==========================================
+        FRIEND REQUESTS
+        ========================================== -->
+
+        <section class="friend-requests-section">
+
+        <div class="section-header">
+
+            <h2>
+                Friend Requests
+            </h2>
+
+            {% if friend_requests %}
+                <span class="request-count">
+                    {{ friend_requests|length }}
+                </span>
+            {% endif %}
+
+        </div>
+
+
+        <div class="people-grid">
+
+            {% for friend_request in friend_requests %}
+
+                <article class="user-card">
+
+                    <!-- SENDER AVATAR -->
+
+                    <div class="user-avatar">
+
+                        {% if friend_request.sender.profile_image %}
+
+                            <img
+                                src="{{ friend_request.sender.profile_image.url }}"
+                                alt="{{ friend_request.sender.name }}"
+                            >
+
+                        {% else %}
+
+                            {{ friend_request.sender.name|first|upper }}
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- SENDER INFORMATION -->
+
+                    <div class="user-info">
+
+                        <h3>
+                            <a href="{% url 'community_profile' friend_request.sender.id %}">
+                                {{ friend_request.sender.name }}
+                            </a>
+                        </h3>
+
+
+                        {% if friend_request.sender.bio %}
+
+                            <p>
+                                {{ friend_request.sender.bio|truncatechars:80 }}
+                            </p>
+
+                        {% else %}
+
+                            <p>
+                                No bio available.
+                            </p>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- FRIEND REQUEST ACTIONS -->
+
+                    <div class="friend-request-actions">
+
+
+                        <!-- ACCEPT -->
+
+                        <form
+                            method="POST"
+                            action="{% url 'accept_friend_request' friend_request.id %}"
+                            class="friend-action-form"
+                        >
+
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                class="add-friend-btn accept-friend-btn"
+                            >
+
+                                <i class="fa-solid fa-user-check"></i>
+
+                                Accept
+
+                            </button>
+
+                        </form>
+
+
+                        <!-- DECLINE -->
+
+                        <form
+                            method="POST"
+                            action="{% url 'decline_friend_request' friend_request.id %}"
+                            class="friend-action-form"
+                        >
+
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                class="add-friend-btn decline-friend-btn"
+                            >
+
+                                <i class="fa-solid fa-user-xmark"></i>
+
+                                Decline
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </article>
+
+
+                {% empty %}
+
+                    <p class="no-friend-requests">
+
+                        You don't have any pending friend requests.
+
+                    </p>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================================
+             PEOPLE SECTION
+        =========================================== -->
+
+        <section class="people-section">
+
+            <h2>
+                Suggested People
+            </h2>
+
+
+            <div class="people-grid">
+
+
+                {% for user in users %}
+
+
+                    <!-- ==================================
+                         USER CARD
+                    =================================== -->
+
+                    <article class="user-card">
+
+
+                        <!-- USER AVATAR -->
+
+                        <div class="user-avatar">
+
+                            {% if user.profile_image %}
+
+                                <img
+                                    src="{{ user.profile_image.url }}"
+                                    alt="{{ user.name }}"
+                                >
+
+                            {% else %}
+
+                                {{ user.name|first|upper }}
+
+                            {% endif %}
+
+                        </div>
+
+
+
+                        <!-- USER INFORMATION -->
+
+                        <div class="user-info">
+
+                            <h3>
+                                <a href="{% url 'community_profile' user.id %}">
+                                    {{ user.name }}
+                                </a>
+                            </h3>
+
+
+                            {% if user.bio %}
+
+                                <p>
+                                    {{ user.bio|truncatechars:80 }}
+                                </p>
+
+                            {% else %}
+
+                                <p>
+                                    No bio available.
+                                </p>
+
+                            {% endif %}
+
+                        </div>
+
+
+                    <!-- ADD FRIEND -->
+
+                        {% if user.friend_request_status == "accepted" %}
+
+                            <button
+                                type="button"
+                                class="add-friend-btn friends-btn"
+                                disabled
+                            >
+                                <i class="fa-solid fa-user-check"></i>
+                                Friends
+                            </button>
+
+
+                        {% elif user.friend_request_status == "pending" and user.friend_request_direction == "sent" %}
+
+                        <form
+                            method="POST"
+                            action="{% url 'cancel_friend_request' user.friend_request_id %}"
+                            class="friend-action-form"
+                        >
+
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                class="add-friend-btn cancel-request-btn"
+                            >
+                                <i class="fa-solid fa-xmark"></i>
+                                Cancel Request
+                            </button>
+
+                        </form>
+
+
+                        {% elif user.friend_request_status == "pending" and user.friend_request_direction == "received" %}
+
+                            <div class="friend-request-actions">
+
+                                <!-- ACCEPT -->
+
+                                <form
+                                    method="POST"
+                                    action="{% url 'accept_friend_request' user.friend_request_id %}"
+                                >
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="add-friend-btn accept-friend-btn"
+                                    >
+                                        <i class="fa-solid fa-user-check"></i>
+                                        Accept
+                                    </button>
+
+                                </form>
+
+
+                                <!-- DECLINE -->
+
+                                <form
+                                    method="POST"
+                                    action="{% url 'decline_friend_request' user.friend_request_id %}"
+                                >
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="add-friend-btn decline-friend-btn"
+                                    >
+                                        <i class="fa-solid fa-user-xmark"></i>
+                                        Decline
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+
+                        {% else %}
+
+                            <form
+                                method="POST"
+                                action="{% url 'send_friend_request' user.id %}"
+                                class="friend-action-form"
+                            >
+
+                                {% csrf_token %}
+
+                                <button
+                                    type="submit"
+                                    class="add-friend-btn"
+                                >
+                                    <i class="fa-solid fa-user-plus"></i>
+                                    Add Friend
+                                </button>
+
+                            </form>
+
+                        {% endif %}
+
+                    </article>
+
+
+                {% empty %}
+
+
+                    <!-- ==================================
+                         EMPTY STATE
+                    =================================== -->
+
+                    <p>
+                        No other users found.
+                    </p>
+
+
+                {% endfor %}
+
+
+            </div>
+
+        </section>
+
+        <!-- ==========================================
+            MY FRIENDS
+        =========================================== -->
+
+        <section class="friends-section">
+
+            <h2>
+                My Friends
+            </h2>
+
+
+            <div class="people-grid">
+
+                {% for friend in friends %}
+
+                    <article class="user-card">
+
+                        <!-- FRIEND AVATAR -->
+
+                        <div class="user-avatar">
+
+                            {% if friend.profile_image %}
+
+                                <img
+                                    src="{{ friend.profile_image.url }}"
+                                    alt="{{ friend.name }}"
+                                >
+
+                            {% else %}
+
+                                {{ friend.name|first|upper }}
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- FRIEND INFORMATION -->
+
+                        <div class="user-info">
+
+                            <h3>
+                                <a href="{% url 'community_profile' friend.id %}">
+                                    {{ friend.name }}
+                                </a>
+                            </h3>
+
+
+                            {% if friend.bio %}
+
+                                <p>
+                                    {{ friend.bio|truncatechars:80 }}
+                                </p>
+
+                            {% else %}
+
+                                <p>
+                                    No bio available.
+                                </p>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- FRIEND STATUS -->
+
+                        <form
+                            method="POST"
+                            action="{% url 'remove_friend' friend.id %}"
+                            class="friend-action-form"
+                        >
+
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                class="add-friend-btn remove-friend-btn"
+                            >
+
+                                <i class="fa-solid fa-user-minus"></i>
+
+                                Remove Friend
+
+                            </button>
+
+                        </form>
+
+                    </article>
+
+                {% empty %}
+
+                    <p class="no-friends">
+
+                        You haven't added any friends yet.
+
+                    </p>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+    <script src="{% static 'js/community.js' %}"></script>
+
+</body>
+
+</html>

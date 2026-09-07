@@ -1,0 +1,671 @@
+/* =========================================================
+   SAVED DIARIES PAGE
+========================================================= */
+
+
+/* =========================================================
+   ROOT VARIABLES
+========================================================= */
+
+:root {
+    --primary: #4f7f65;
+    --primary-dark: #3d6651;
+    --primary-light: #e9f2ec;
+
+    --background: #f7f9f7;
+    --surface: #ffffff;
+
+    --text-dark: #26352d;
+    --text-medium: #65736b;
+    --text-light: #929c96;
+
+    --border: #e5ebe7;
+
+    --shadow-sm:
+        0 2px 8px rgba(35, 55, 44, 0.05);
+
+    --shadow-md:
+        0 8px 25px rgba(35, 55, 44, 0.08);
+
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 22px;
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+    min-height: 100vh;
+
+    background: var(--background);
+
+    color: var(--text-dark);
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+
+    line-height: 1.6;
+
+    -webkit-font-smoothing: antialiased;
+}
+
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+
+button {
+    cursor: pointer;
+}
+
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.saved-header {
+    width: 100%;
+
+    min-height: 72px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 32px;
+
+    background: var(--surface);
+
+    border-bottom: 1px solid var(--border);
+
+    position: sticky;
+    top: 0;
+
+    z-index: 100;
+}
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.back-btn {
+    display: inline-flex;
+
+    align-items: center;
+    gap: 9px;
+
+    min-width: 90px;
+
+    color: var(--text-medium);
+
+    font-size: 14px;
+    font-weight: 600;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.back-btn i {
+    font-size: 15px;
+}
+
+
+.back-btn:hover {
+    color: var(--primary);
+
+    transform: translateX(-2px);
+}
+
+
+/* =========================================================
+   HEADER TITLE
+========================================================= */
+
+.saved-header-title {
+    position: absolute;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    white-space: nowrap;
+}
+
+
+.saved-header-title i {
+    color: var(--primary);
+
+    font-size: 18px;
+}
+
+
+.saved-header-title h2 {
+    color: var(--text-dark);
+
+    font-size: 19px;
+    font-weight: 700;
+
+    letter-spacing: -0.2px;
+}
+
+
+/* =========================================================
+   HEADER SPACE
+========================================================= */
+
+.header-space {
+    margin-left: auto;
+
+    width: 90px;
+}
+
+
+/* =========================================================
+   MAIN PAGE
+========================================================= */
+
+.saved-page {
+    width: 100%;
+
+    max-width: 900px;
+
+    margin: 0 auto;
+
+    padding:
+        48px 24px
+        70px;
+}
+
+
+/* =========================================================
+   PAGE INTRO
+========================================================= */
+
+.saved-page-intro {
+    margin-bottom: 34px;
+}
+
+
+.saved-subtitle {
+    margin-bottom: 6px;
+
+    color: var(--primary);
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1.3px;
+}
+
+
+.saved-page-intro h1 {
+    margin-bottom: 8px;
+
+    color: var(--text-dark);
+
+    font-size: 34px;
+
+    line-height: 1.2;
+
+    font-weight: 750;
+
+    letter-spacing: -0.8px;
+}
+
+
+.saved-page-intro > p:last-child {
+    color: var(--text-medium);
+
+    font-size: 15px;
+
+    max-width: 600px;
+}
+
+
+
+/* =========================================================
+   SAVED PAGE FEED WIDTH
+========================================================= */
+
+.saved-page .home-feed {
+    width: 100%;
+}
+
+
+.saved-page .diary-list {
+    width: 100%;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.empty-saved {
+    width: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    padding:
+        65px 30px;
+
+    background: var(--surface);
+
+    border: 1px dashed #d5dfd9;
+
+    border-radius: var(--radius-lg);
+}
+
+
+/* =========================================================
+   EMPTY ICON
+========================================================= */
+
+.empty-saved-icon {
+    width: 72px;
+    height: 72px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 20px;
+
+    border-radius: 50%;
+
+    background: var(--primary-light);
+
+    color: var(--primary);
+
+    font-size: 28px;
+}
+
+
+.empty-saved h2 {
+    margin-bottom: 8px;
+
+    color: var(--text-dark);
+
+    font-size: 21px;
+
+    font-weight: 700;
+}
+
+
+.empty-saved p {
+    max-width: 430px;
+
+    margin-bottom: 24px;
+
+    color: var(--text-medium);
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   EXPLORE BUTTON
+========================================================= */
+
+.explore-btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 11px 19px;
+
+    border-radius: 10px;
+
+    background: var(--primary);
+
+    color: #ffffff;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    box-shadow:
+        0 4px 10px rgba(79, 127, 101, 0.18);
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.explore-btn:hover {
+    background: var(--primary-dark);
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 6px 14px rgba(79, 127, 101, 0.24);
+}
+
+
+.explore-btn:active {
+    transform: translateY(0);
+}
+
+
+.explore-btn i {
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   FOCUS STATES
+========================================================= */
+
+.back-btn:focus-visible,
+.explore-btn:focus-visible {
+    outline: 3px solid rgba(79, 127, 101, 0.22);
+
+    outline-offset: 3px;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .saved-header {
+        min-height: 66px;
+
+        padding: 0 22px;
+    }
+
+
+    .saved-header-title h2 {
+        font-size: 18px;
+    }
+
+
+    .saved-page {
+        padding:
+            38px 20px
+            55px;
+    }
+
+
+    .saved-page-intro {
+        margin-bottom: 28px;
+    }
+
+
+    .saved-page-intro h1 {
+        font-size: 30px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .saved-header {
+        min-height: 62px;
+
+        padding: 0 16px;
+    }
+
+
+    .back-btn {
+        min-width: auto;
+
+        gap: 7px;
+
+        font-size: 13px;
+    }
+
+
+    .back-btn span {
+        display: none;
+    }
+
+
+    .back-btn i {
+        font-size: 17px;
+    }
+
+
+    .header-space {
+        width: 30px;
+    }
+
+
+    .saved-header-title {
+        gap: 8px;
+    }
+
+
+    .saved-header-title i {
+        font-size: 16px;
+    }
+
+
+    .saved-header-title h2 {
+        font-size: 16px;
+    }
+
+
+    .saved-page {
+        padding:
+            30px 15px
+            45px;
+    }
+
+
+    .saved-page-intro {
+        margin-bottom: 24px;
+    }
+
+
+    .saved-subtitle {
+        font-size: 11px;
+
+        letter-spacing: 1.1px;
+    }
+
+
+    .saved-page-intro h1 {
+        font-size: 27px;
+
+        letter-spacing: -0.5px;
+    }
+
+
+    .saved-page-intro > p:last-child {
+        font-size: 13px;
+
+        line-height: 1.6;
+    }
+
+
+    .empty-saved {
+        padding:
+            50px 20px;
+
+        border-radius: 16px;
+    }
+
+
+    .empty-saved-icon {
+        width: 64px;
+        height: 64px;
+
+        margin-bottom: 17px;
+
+        font-size: 24px;
+    }
+
+
+    .empty-saved h2 {
+        font-size: 19px;
+    }
+
+
+    .empty-saved p {
+        font-size: 13px;
+
+        margin-bottom: 21px;
+    }
+
+
+    .explore-btn {
+        padding: 10px 16px;
+
+        font-size: 13px;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .saved-page {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+
+    .saved-header {
+        padding-left: 13px;
+        padding-right: 13px;
+    }
+
+
+    .saved-header-title h2 {
+        font-size: 15px;
+    }
+
+
+    .saved-page-intro h1 {
+        font-size: 25px;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+
+        animation: none !important;
+    }
+}
+
+
+/* =========================================================
+   SAVED DIARY - POST AVATAR
+========================================================= */
+
+.post-avatar {
+    width: 45px;
+    height: 45px;
+
+    min-width: 45px;
+    min-height: 45px;
+
+    border-radius: 50%;
+
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--primary-light);
+
+    color: var(--primary);
+
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.post-avatar img {
+    width: 100%;
+    height: 100%;
+
+    max-width: none;
+    max-height: none;
+
+    object-fit: cover;
+
+    display: block;
+}

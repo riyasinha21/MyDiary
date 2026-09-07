@@ -1,0 +1,483 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ profile_user.name }} - Profile</title>
+
+    
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/community_profile.css' %}"
+    >
+
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+</head>
+
+<body>
+
+    <!-- ==========================================
+         TOP BAR
+    =========================================== -->
+
+    <header class="profile-top">
+
+        <a
+            href="{% url 'community' %}"
+            class="back-link"
+        >
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Back to Community</span>
+        </a>
+
+        <h1>Profile</h1>
+
+    </header>
+
+
+    <!-- ==========================================
+         PROFILE PAGE
+    =========================================== -->
+
+    <main class="community-profile-page">
+
+        <section class="community-profile-card">
+
+            <!-- PROFILE IMAGE -->
+
+            <div class="community-profile-avatar">
+
+                {% if profile_user.profile_image %}
+
+                    <img
+                        src="{{ profile_user.profile_image.url }}"
+                        alt="{{ profile_user.name }}"
+                    >
+
+                {% else %}
+
+                    {{ profile_user.name|first|upper }}
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- NAME -->
+
+            <h2>
+                {{ profile_user.name }}
+            </h2>
+
+
+            <!-- BIO -->
+
+            {% if profile_user.bio %}
+
+                <p class="community-profile-bio">
+                    {{ profile_user.bio }}
+                </p>
+
+            {% else %}
+
+                <p class="community-profile-bio muted">
+                    No bio available.
+                </p>
+
+            {% endif %}
+
+            <!--- ===================== --->
+            <div class="community-profile-stats">
+
+                <div class="profile-stat">
+                    <strong>{{ friend_count }}</strong>
+                    <span>Friends</span>
+                </div>
+
+                <div class="profile-stat">
+                    <strong>{{ diary_count }}</strong>
+                    <span>Diaries</span>
+                </div>
+
+            </div>
+
+
+            <!-- ==========================================
+                 FRIENDSHIP ACTION
+            =========================================== -->
+
+            <div class="community-profile-actions">
+
+
+                <!-- ALREADY FRIENDS -->
+
+                {% if friendship %}
+
+                    <div class="friend-action-group">
+
+                        <button
+                            type="button"
+                            class="profile-action-btn friends-btn"
+                            disabled
+                        >
+                            <i class="fa-solid fa-user-check"></i>
+                            Friends
+                        </button>
+
+
+                        <form
+                            method="POST"
+                            action="{% url 'remove_friend' profile_user.id %}"
+                        >
+
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                class="profile-action-btn remove-friend-btn"
+                            >
+                                <i class="fa-solid fa-user-minus"></i>
+                                Remove Friend
+                            </button>
+
+                        </form>
+
+                    </div>
+
+
+                <!-- REQUEST SENT -->
+
+                {% elif sent_request %}
+
+                    <form
+                        method="POST"
+                        action="{% url 'cancel_friend_request' sent_request.id %}"
+                    >
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="profile-action-btn cancel-request-btn"
+                        >
+                            <i class="fa-solid fa-xmark"></i>
+                            Cancel Request
+                        </button>
+
+                    </form>
+
+
+                <!-- REQUEST RECEIVED -->
+
+                {% elif received_request %}
+
+                    <div class="friend-action-group">
+
+                        <form
+                            method="POST"
+                            action="{% url 'accept_friend_request' received_request.id %}"
+                        >
+
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                class="profile-action-btn accept-friend-btn"
+                            >
+                                <i class="fa-solid fa-user-check"></i>
+                                Accept
+                            </button>
+
+                        </form>
+
+
+                        <form
+                            method="POST"
+                            action="{% url 'decline_friend_request' received_request.id %}"
+                        >
+
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                class="profile-action-btn decline-friend-btn"
+                            >
+                                <i class="fa-solid fa-user-xmark"></i>
+                                Decline
+                            </button>
+
+                        </form>
+
+                    </div>
+
+
+                <!-- NO RELATIONSHIP -->
+
+                {% else %}
+
+                    <form
+                        method="POST"
+                        action="{% url 'send_friend_request' profile_user.id %}"
+                    >
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="profile-action-btn add-friend-btn"
+                        >
+                            <i class="fa-solid fa-user-plus"></i>
+                            Add Friend
+                        </button>
+
+                    </form>
+
+                {% endif %}
+
+
+            </div>
+
+        </section>
+
+        
+
+        <section class="community-diaries">
+
+            <div class="community-diaries-header">
+                <h2>Diaries</h2>
+            </div>
+
+            {% if public_diaries %}
+
+                <div class="community-diary-list">
+
+                    {% for diary in public_diaries %}
+
+                        <article class="community-diary-card">
+
+                            <div class="community-diary-header">
+
+                                <div class="community-diary-user">
+
+                                    <span class="community-diary-avatar">
+
+                                        {% if profile_user.profile_image %}
+                                            <img
+                                                src="{{ profile_user.profile_image.url }}"
+                                                alt="{{ profile_user.name }}"
+                                            >
+                                        {% else %}
+                                            {{ profile_user.name|first|upper }}
+                                        {% endif %}
+
+                                    </span>
+
+                                    <div class="community-diary-user-info">
+
+                                        <strong>
+                                            {{ profile_user.name }}
+                                        </strong>
+
+                                        <span>
+                                            {{ diary.created_at|date:"F d, Y" }}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="community-diary-body">
+
+                                <h3>
+                                    {{ diary.title }}
+                                </h3>
+
+                                <p>
+                                    {{ diary.content }}
+                                </p>
+
+                            </div>
+
+
+                            <div class="community-diary-footer">
+
+                                <form
+                                    method="POST"
+                                    action="{% url 'diary_like' diary.id %}"
+                                    class="community-footer-form"
+                                >
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="community-footer-btn"
+                                        aria-label="Like diary"
+                                    >
+                                        {% if diary.is_liked %}
+                                            <i class="fa-solid fa-heart liked"></i>
+                                        {% else %}
+                                            <i class="fa-regular fa-heart"></i>
+                                        {% endif %}
+
+                                        <span>{{ diary.likes.count }}</span>
+                                    </button>
+                                </form>
+
+
+                                <!-- COMMENT -->
+
+                                    <button
+                                        type="button"
+                                        class="community-footer-btn comment-toggle-btn"
+                                        data-comments="comments-{{ diary.id }}"
+                                        aria-label="Comment"
+                                    >
+
+                                        <i class="fa-regular fa-comment"></i>
+
+                                        <span>
+                                            {{ diary.comments.count }}
+                                        </span>
+
+                                    </button>
+
+
+                                <form
+                                    method="POST"
+                                    action="{% url 'diary_bookmark' diary.id %}"
+                                    class="community-footer-form"
+                                >
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="community-footer-btn"
+                                        aria-label="Save diary"
+                                    >
+                                        {% if diary.is_bookmarked %}
+                                            <i class="fa-solid fa-bookmark bookmarked"></i>
+                                        {% else %}
+                                            <i class="fa-regular fa-bookmark"></i>
+                                        {% endif %}
+                                    </button>
+                                </form>
+
+                            </div>
+
+                            <div
+    class="comments-section"
+    id="comments-{{ diary.id }}"
+>
+
+    {% for comment in diary.comments.all %}
+
+        <div class="comment">
+
+            <div class="comment-avatar">
+                {{ comment.user.name|first|upper }}
+            </div>
+
+            <div class="comment-content">
+
+                <strong>
+                    {{ comment.user.name }}
+                </strong>
+
+                <p>
+                    {{ comment.content }}
+                </p>
+
+                <small>
+                    {{ comment.created_at|date:"F d, Y" }}
+                </small>
+
+            </div>
+
+        </div>
+
+    {% empty %}
+
+        <p class="no-comments">
+            No comments yet.
+        </p>
+
+    {% endfor %}
+
+
+    <!-- COMMENT FORM -->
+
+    <form
+        method="POST"
+        action="{% url 'diary_comment' diary.id %}"
+        class="comment-form"
+    >
+
+        {% csrf_token %}
+
+        <input
+            type="text"
+            name="content"
+            placeholder="Write a comment..."
+            required
+        >
+
+        <button
+            type="submit"
+            class="comment-submit-btn"
+            aria-label="Submit comment"
+        >
+            <i class="fa-solid fa-paper-plane"></i>
+        </button>
+
+    </form>
+
+</div>
+
+                        </article>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div class="community-no-diaries">
+
+                    <i class="fa-solid fa-book-open"></i>
+
+                    <h3>
+                        No public diaries yet
+                    </h3>
+
+                    <p>
+                        This user hasn't shared any diaries publicly.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+    </main>
+
+    <script src="{% static 'js/community.js' %}"></script>
+
+</body>
+
+</html>

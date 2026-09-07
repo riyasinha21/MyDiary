@@ -1,0 +1,175 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Settings</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/settings.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+</head>
+
+<body>
+
+    <div class="settings-page">
+
+        <div class="settings-header">
+
+            <a href="{% url 'home' %}" class="back-button">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+
+            <div>
+                <h1>Settings</h1>
+                <p>Manage your account and preferences</p>
+            </div>
+
+        </div>
+
+
+        <div class="settings-container">
+
+            <!-- Account -->
+
+            <section class="settings-section">
+
+                <h2>Account</h2>
+
+                <a href="#" class="settings-item">
+
+                    <div class="settings-icon">
+                        <i class="fa-regular fa-user"></i>
+                    </div>
+
+                    <div class="settings-info">
+                        <h3>Personal Information</h3>
+                        <p>Manage your name, bio and date of birth</p>
+                    </div>
+
+                    <i class="fa-solid fa-chevron-right arrow"></i>
+
+                </a>
+
+
+                <a href="{% url 'change_password' %}" class="settings-item">
+
+                    <div class="settings-icon">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+
+                    <div class="settings-info">
+                        <h3>Change Password</h3>
+                        <p>Update your account password</p>
+                    </div>
+
+                    <i class="fa-solid fa-chevron-right arrow"></i>
+
+                </a>
+
+            </section>
+
+
+            <!-- Diary -->
+
+            <section class="settings-section">
+
+                <h2>Diary</h2>
+
+                <a href="#" class="settings-item">
+
+                    <div class="settings-icon">
+                        <i class="fa-solid fa-book"></i>
+                    </div>
+
+                    <div class="settings-info">
+                        <h3>Diary Preferences</h3>
+                        <p>Manage your diary preferences</p>
+                    </div>
+
+                    <i class="fa-solid fa-chevron-right arrow"></i>
+
+                </a>
+
+            </section>
+
+
+            <!-- Notifications -->
+
+            <section class="settings-section">
+
+                <h2>Notifications</h2>
+
+                <a href="#" class="settings-item">
+
+                    <div class="settings-icon">
+                        <i class="fa-regular fa-bell"></i>
+                    </div>
+
+                    <div class="settings-info">
+                        <h3>Notification Preferences</h3>
+                        <p>Choose which notifications you receive</p>
+                    </div>
+
+                    <i class="fa-solid fa-chevron-right arrow"></i>
+
+                </a>
+
+            </section>
+
+
+            <!-- Account actions -->
+
+            <section class="settings-section">
+
+                <h2>Account Actions</h2>
+
+                <a href="{% url 'logout' %}" class="settings-item">
+
+                    <div class="settings-icon">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </div>
+
+                    <div class="settings-info">
+                        <h3>Logout</h3>
+                        <p>Sign out of your account</p>
+                    </div>
+
+                    <i class="fa-solid fa-chevron-right arrow"></i>
+
+                </a>
+
+
+                <a href="{% url 'delete_account' %}" class="settings-item danger">
+
+                    <div class="settings-icon">
+                        <i class="fa-solid fa-trash"></i>
+                    </div>
+
+                    <div class="settings-info">
+                        <h3>Delete Account</h3>
+                        <p>Permanently delete your account</p>
+                    </div>
+
+                    <i class="fa-solid fa-chevron-right arrow"></i>
+
+                </a>
+
+            </section>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

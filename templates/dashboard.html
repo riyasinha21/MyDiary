@@ -1,0 +1,45 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body>
+
+<div class="dashboard-container">
+
+    <h1>Welcome to Digital Diary</h1>
+
+    <p>You have successfully logged in.</p>
+
+    <div class="dashboard-buttons">
+
+        <button id="createDiaryBtn">
+            Create Diary
+        </button>
+
+        <button id="viewDiaryBtn">
+            View Diaries
+        </button>
+
+        <button id="profileBtn">
+            Profile
+        </button>
+
+        <button id="logoutBtn">
+            Logout
+        </button>
+
+    </div>
+
+</div>
+
+<script src="{% static 'js/dashboard.js' %}"></script>
+
+</body>
+</html>

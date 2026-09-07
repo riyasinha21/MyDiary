@@ -1,0 +1,318 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Signup</title>
+
+    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="{% static 'css/signup.css' %}"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+</head>
+
+
+<body>
+
+<div class="signup-container">
+
+    <h2>Create Account</h2>
+
+
+    <!-- Signup Form -->
+
+    <form
+        id="signupForm"
+        action="{% url 'signup' %}"
+        method="POST"
+    >
+
+        {% csrf_token %}
+
+
+        <!-- ================= NAME ================= -->
+
+        <label for="name">
+            Name:
+        </label>
+
+        <div class="form-group">
+
+            <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Name"
+                value="{{ data.name|default:'' }}"
+                required
+            >
+
+            {% if errors.name %}
+                <small class="error-message">
+                    {{ errors.name.0 }}
+                </small>
+            {% endif %}
+
+        </div>
+
+
+        <!-- ================= EMAIL ================= -->
+
+        <label for="email">
+            Email:
+        </label>
+
+        <div class="form-group">
+
+            <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="xyz@gmail.com"
+                value="{{ data.email|default:'' }}"
+                required
+            >
+
+            {% if errors.email %}
+                <small class="error-message">
+                    {{ errors.email.0 }}
+                </small>
+            {% endif %}
+
+        </div>
+
+
+        <!-- ================= PHONE ================= -->
+
+        <label for="phone_number">
+            Phone Number:
+        </label>
+
+        <div class="form-group">
+
+            <div class="phone-wrapper">
+
+
+                <!-- Country Dropdown -->
+
+                <div class="country-dropdown">
+
+                    <button
+                        type="button"
+                        id="countryDropdownBtn"
+                        class="country-dropdown-btn"
+                    >
+
+                        <span id="selectedCountry">
+                            Code
+                        </span>
+
+                        <i class="bi bi-chevron-down"></i>
+
+                    </button>
+
+
+                    <div
+                        id="countryDropdownList"
+                        class="country-dropdown-list"
+                    >
+
+                        {% for code, country in countries %}
+                            <div
+                                class="country-option"
+                                data-code="{{ code }}"
+                                data-country="{{ country }}"
+                            >
+                                <span class="country-flag"></span>
+                                <span class="country-code">{{ code }}</span>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- Country Code -->
+
+                <input
+                    type="hidden"
+                    id="country_code"
+                    name="country_code"
+                    value="{{ data.country_code|default:'' }}"
+                >
+
+
+                <!-- Phone Number -->
+
+                <input
+                    type="tel"
+                    id="phone_number"
+                    name="phone_number"
+                    placeholder="Phone Number"
+                    value="{{ data.phone_number|default:'' }}"
+                    required
+                >
+
+            </div>
+
+
+            {% if errors.country_code %}
+                <small class="error-message">
+                    {{ errors.country_code.0 }}
+                </small>
+            {% endif %}
+
+
+            {% if errors.phone_number %}
+                <small class="error-message">
+                    {{ errors.phone_number.0 }}
+                </small>
+            {% endif %}
+
+        </div>
+
+
+        <!-- ================= PASSWORD ================= -->
+
+        <label for="password">
+            Password:
+        </label>
+
+        <div class="form-group">
+
+            <div class="password-wrapper">
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Password"
+                    required
+                >
+
+                <button
+                    type="button"
+                    id="togglePassword"
+                    class="password-toggle"
+                >
+
+                    <i class="bi bi-eye"></i>
+
+                </button>
+
+            </div>
+
+
+            {% if errors.password %}
+                <small class="error-message">
+
+                    {% for error in errors.password %}
+                        {{ error }}<br>
+                    {% endfor %}
+
+                </small>
+            {% endif %}
+
+        </div>
+
+
+        <!-- ================= CONFIRM PASSWORD ================= -->
+
+        <label for="confirm_password">
+            Confirm Password:
+        </label>
+
+        <div class="form-group">
+
+            <div class="password-wrapper">
+
+                <input
+                    type="password"
+                    id="confirm_password"
+                    name="confirm_password"
+                    placeholder="Confirm Password"
+                    required
+                >
+
+                <button
+                    type="button"
+                    id="toggleConfirmPassword"
+                    class="password-toggle"
+                >
+
+                    <i class="bi bi-eye"></i>
+
+                </button>
+
+            </div>
+
+
+            {% if errors.confirm_password %}
+                <small class="error-message">
+                    {{ errors.confirm_password.0 }}
+                </small>
+            {% endif %}
+
+        </div>
+
+
+        <!-- ================= SIGNUP BUTTON ================= -->
+
+        <button
+            type="submit"
+            class="signup-btn"
+            id="signupBtn"
+        >
+            Signup
+        </button>
+
+
+        <!-- Loader -->
+
+        <div
+            id="loader"
+            class="loader"
+        ></div>
+
+
+    </form>
+
+
+    <!-- ================= LOGIN ================= -->
+
+    <div class="login-link">
+
+        Already have an account?
+
+        <a href="{% url 'login' %}">
+            Login
+        </a>
+
+    </div>
+
+
+</div>
+
+
+<!-- JavaScript -->
+
+<script src="{% static 'js/signup.js' %}"></script>
+
+</body>
+
+</html>

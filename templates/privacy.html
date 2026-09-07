@@ -1,0 +1,347 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Privacy</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/privacy.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+
+</head>
+
+<body>
+
+    <div class="privacy-page">
+
+        <div class="privacy-container">
+
+            <!-- Header -->
+
+            <div class="privacy-header">
+
+                <a
+                    href="{% url 'home' %}"
+                    class="back-link"
+                >
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Back</span>
+                </a>
+
+                <h1>Privacy</h1>
+
+                <p>
+                    Manage who can see your profile and interact
+                    with you.
+                </p>
+
+            </div>
+
+
+            <!-- Privacy Form -->
+
+            <form
+                method="POST"
+                class="privacy-form"
+            >
+
+                {% csrf_token %}
+
+
+                <!-- Profile Visibility -->
+
+                <div class="privacy-card">
+
+                    <div class="card-header">
+
+                        <div class="card-icon">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+
+                        <div>
+                            <h2>Profile Visibility</h2>
+
+                            <p>
+                                Choose who can view your profile.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="option-group">
+
+                        <label class="privacy-option">
+
+                            <input
+                                type="radio"
+                                name="profile_visibility"
+                                value="public"
+                                {% if serializer.instance.profile_visibility == "public" %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <div class="option-content">
+
+                                <strong>Public</strong>
+
+                                <span>
+                                    Everyone can view your profile.
+                                </span>
+
+                            </div>
+
+                        </label>
+
+
+                        <label class="privacy-option">
+
+                            <input
+                                type="radio"
+                                name="profile_visibility"
+                                value="friends"
+                                {% if serializer.instance.profile_visibility == "friends" %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <div class="option-content">
+
+                                <strong>Friends Only</strong>
+
+                                <span>
+                                    Only your accepted friends can
+                                    view your profile.
+                                </span>
+
+                            </div>
+
+                        </label>
+
+
+                        <label class="privacy-option">
+
+                            <input
+                                type="radio"
+                                name="profile_visibility"
+                                value="private"
+                                {% if serializer.instance.profile_visibility == "private" %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <div class="option-content">
+
+                                <strong>Private</strong>
+
+                                <span>
+                                    Only you can view your profile.
+                                </span>
+
+                            </div>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Friend Requests -->
+
+                <div class="privacy-card">
+
+                    <div class="card-header">
+
+                        <div class="card-icon">
+                            <i class="fa-solid fa-user-plus"></i>
+                        </div>
+
+                        <div>
+                            <h2>Friend Requests</h2>
+
+                            <p>
+                                Control who can send you friend requests.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="option-group">
+
+                        <label class="privacy-option">
+
+                            <input
+                                type="radio"
+                                name="friend_request_permission"
+                                value="everyone"
+                                {% if serializer.instance.friend_request_permission == "everyone" %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <div class="option-content">
+
+                                <strong>Everyone</strong>
+
+                                <span>
+                                    Anyone can send you a friend request.
+                                </span>
+
+                            </div>
+
+                        </label>
+
+
+                        <label class="privacy-option">
+
+                            <input
+                                type="radio"
+                                name="friend_request_permission"
+                                value="friends"
+                                {% if serializer.instance.friend_request_permission == "friends" %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <div class="option-content">
+
+                                <strong>Friends of Friends</strong>
+
+                                <span>
+                                    Only friends of your existing friends
+                                    can send requests.
+                                </span>
+
+                            </div>
+
+                        </label>
+
+
+                        <label class="privacy-option">
+
+                            <input
+                                type="radio"
+                                name="friend_request_permission"
+                                value="nobody"
+                                {% if serializer.instance.friend_request_permission == "nobody" %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <div class="option-content">
+
+                                <strong>Nobody</strong>
+
+                                <span>
+                                    Don't allow anyone to send you
+                                    friend requests.
+                                </span>
+
+                            </div>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Search Visibility -->
+
+                <div class="privacy-card">
+
+                    <div class="card-header">
+
+                        <div class="card-icon">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </div>
+
+                        <div>
+                            <h2>Search Visibility</h2>
+
+                            <p>
+                                Control whether people can find
+                                your profile through search.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <label class="toggle-option">
+
+                        <div class="toggle-content">
+
+                            <strong>
+                                Show my profile in search results
+                            </strong>
+
+                            <span>
+                                Allow other users to find your profile.
+                            </span>
+
+                        </div>
+
+                        <input
+                            type="checkbox"
+                            name="searchable"
+                            {% if serializer.instance.searchable %}
+                                checked
+                            {% endif %}
+                        >
+
+                        <span class="toggle-slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- Actions -->
+
+                <div class="privacy-actions">
+
+                    <a
+                        href="{% url 'home' %}"
+                        class="cancel-btn"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="save-btn"
+                    >
+                        <i class="fa-solid fa-check"></i>
+                        Save Changes
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

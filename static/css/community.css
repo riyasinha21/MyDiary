@@ -1,0 +1,458 @@
+/* ==========================================
+   COMMUNITY PAGE
+========================================== */
+
+.community-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 30px 60px;
+}
+
+
+/* ==========================================
+   COMMUNITY HEADER
+========================================== */
+
+.community-header {
+    margin-bottom: 35px;
+}
+
+.community-header .page-subtitle {
+    margin: 0 0 8px;
+    color: var(--primary);
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.community-header h1 {
+    margin: 0 0 10px;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.community-header > p:last-child {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 15px;
+}
+
+
+/* ==========================================
+   PEOPLE SECTION
+========================================== */
+
+.people-section {
+    margin-top: 45px;
+}
+
+.friends-section {
+    margin-top: 20px;
+}
+
+.friends-section h2 {
+    margin: 0 0 22px;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.people-section h2 {
+    margin: 0 0 22px;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+
+/* ==========================================
+   PEOPLE GRID
+========================================== */
+
+.people-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+
+/* ==========================================
+   USER CARD
+========================================== */
+
+.user-card {
+    background: var(--card-background, #ffffff);
+    border: 1px solid var(--border-color, #e8ece9);
+    border-radius: 16px;
+    padding: 24px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.user-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.07);
+
+    border-color: rgba(79, 127, 101, 0.25);
+}
+
+
+/* ==========================================
+   USER AVATAR
+========================================== */
+
+.user-avatar {
+    width: 72px;
+    height: 72px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    background: #e8f0eb;
+    color: var(--primary, #4f7f65);
+
+    font-size: 25px;
+    font-weight: 700;
+
+    margin-bottom: 16px;
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+/* ==========================================
+   USER INFORMATION
+========================================== */
+
+.user-info {
+    width: 100%;
+    margin-bottom: 18px;
+}
+
+.user-info h3 {
+    margin: 0 0 7px;
+
+    font-size: 18px;
+    font-weight: 650;
+
+    color: var(--text-dark, #26332b);
+}
+
+.user-info p {
+    margin: 0;
+
+    color: var(--text-muted, #748078);
+
+    font-size: 14px;
+    line-height: 1.5;
+
+    min-height: 42px;
+}
+
+
+/* ==========================================
+   ADD FRIEND BUTTON
+========================================== */
+
+.add-friend-btn {
+    width: 100%;
+
+    border: none;
+    border-radius: 10px;
+
+    padding: 11px 16px;
+
+    background: var(--primary, #4f7f65);
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.add-friend-btn:hover {
+    background: var(--primary-dark, #3d6550);
+}
+
+.add-friend-btn:active {
+    transform: scale(0.98);
+}
+
+.add-friend-btn i {
+    font-size: 13px;
+}
+
+.add-friend-btn:disabled {
+    opacity: 1;
+}
+
+/* ==========================================
+   EMPTY STATE
+========================================== */
+
+.people-grid > p {
+    grid-column: 1 / -1;
+
+    text-align: center;
+
+    padding: 50px 20px;
+
+    color: var(--text-muted, #748078);
+
+    font-size: 15px;
+}
+
+
+/* ==========================================
+   TABLET
+========================================== */
+
+@media (max-width: 900px) {
+
+    .community-page {
+        padding: 35px 25px 50px;
+    }
+
+    .people-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 600px) {
+
+    .community-page {
+        padding: 25px 18px 40px;
+    }
+
+    .community-header h1 {
+        font-size: 27px;
+    }
+
+    .people-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .user-card {
+        padding: 22px;
+    }
+
+}
+
+/* FRIEND REQUEST ACTIONS */
+
+.friend-request-actions {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+}
+
+.friend-request-actions form {
+    flex: 1;
+    margin: 0;
+}
+
+.friend-request-actions .add-friend-btn {
+    width: 100%;
+}
+
+
+/* ==========================================
+   FRIEND REQUESTS
+========================================== */
+
+.friend-requests-section {
+    margin-bottom: 45px;
+}
+
+.friend-requests-section .user-card {
+    padding: 24px;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.section-header h2 {
+    margin: 0;
+}
+
+.request-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 24px;
+    height: 24px;
+
+    padding: 0 7px;
+
+    border-radius: 50px;
+
+    background: var(--primary);
+    color: white;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+.friend-request-actions form {
+    flex: 1;
+}
+
+.friend-request-actions button {
+    width: 100%;
+}
+
+.no-friend-requests {
+    padding: 25px 0;
+    color: #777;
+}
+
+/* ==========================================
+   FRIEND REQUEST BUTTONS
+========================================== */
+
+.accept-friend-btn {
+    background: var(--primary, #4f7f65);
+}
+
+.accept-friend-btn:hover {
+    background: var(--primary-dark, #3d6550);
+}
+
+
+/* ==========================================
+   DECLINE BUTTON
+========================================== */
+
+.decline-friend-btn {
+    background: #f1f3f2;
+    color: #657069;
+    border: 1px solid #dfe5e1;
+}
+
+.decline-friend-btn:hover {
+    background: #e7ebe8;
+    color: #4f5752;
+}
+
+
+/* ==========================================
+   REQUEST SENT
+========================================== */
+
+.request-sent-btn {
+    background: #eef2ef;
+    color: #6b756f;
+    cursor: default;
+}
+
+.request-sent-btn:hover {
+    background: #eef2ef;
+}
+
+
+/* ==========================================
+   FRIENDS BUTTON
+========================================== */
+
+.friends-btn {
+    background: #e8f0eb;
+    color: var(--primary, #4f7f65);
+    cursor: default;
+}
+
+.friends-btn:hover {
+    background: #e8f0eb;
+}
+
+
+/* ==========================================
+   REMOVE FRIEND
+========================================== */
+
+.remove-friend-btn {
+    background: #f4eeee;
+    color: #a05a5a;
+}
+
+.remove-friend-btn:hover {
+    background: #eadede;
+}
+
+/* ==========================================
+   CANCEL FRIEND REQUEST
+========================================== */
+
+.cancel-request-btn {
+    background: #f4eeee;
+    color: #a05a5a;
+}
+
+.cancel-request-btn:hover {
+    background: #eadede;
+    color: #8f4d4d;
+}
+
+
+/*profile click*/
+
+.user-info h3 a {
+    color: #26332b;
+    text-decoration: none;
+}
+
+.user-info h3 a:visited {
+    color: #26332b;
+    text-decoration: none;
+}
+
+.user-info h3 a:hover {
+    color: var(--primary);
+    text-decoration: none;
+}

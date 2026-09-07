@@ -1,0 +1,718 @@
+/* ==========================================
+   MAIN CONTENT
+========================================== */
+
+.main-content {
+    width: 100%;
+    max-width: 1200px;
+
+    margin: 0 auto;
+
+    padding: 40px 30px 60px;
+}
+
+
+/* ==========================================
+   DIARY PAGE HEADER
+========================================== */
+
+.diary-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 20px;
+
+    margin-bottom: 30px;
+}
+
+
+.page-subtitle {
+    margin: 0 0 8px;
+
+    font-size: 14px;
+    color: var(--primary);
+}
+
+
+.diary-page-header h1 {
+    margin: 0 0 10px;
+
+    font-size: 32px;
+    color: var(--text-primary);
+}
+
+
+.page-description {
+    margin: 0;
+
+    color: var(--text-secondary);
+}
+
+
+/* ==========================================
+   WRITE BUTTON
+========================================== */
+
+.write-new-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 12px 18px;
+
+    border-radius: 10px;
+
+    background: var(--primary);
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    transition: 0.2s ease;
+}
+
+
+.write-new-btn:hover {
+    background: var(--primary-dark);
+}
+
+
+/* ==========================================
+   DIARY LIST
+========================================== */
+
+.diary-list {
+    width: 100%;
+    max-width: 850px;
+    margin: 30px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+/* ==========================================
+   POST CARD
+========================================== */
+
+.post-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 22px;
+    transition: 0.2s ease;
+}
+
+
+.post-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+}
+
+
+/* ==========================================
+   POST HEADER
+========================================== */
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+
+/* USER */
+
+.post-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+
+/* AVATAR */
+
+.post-avatar {
+    width: 45px;
+    height: 45px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: var(--primary);
+    color: white;
+
+    font-size: 18px;
+    font-weight: 600;
+}
+
+
+/* USER INFORMATION */
+
+.post-user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+
+.post-user-info h4 {
+    margin: 0;
+
+    font-size: 15px;
+    color: var(--text-primary);
+}
+
+
+.post-user-info span {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+/* ==========================================
+   POST HEADER ACTIONS
+========================================== */
+
+.post-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+/* POST MENU */
+
+.post-menu {
+    position: relative;
+}
+
+
+/* MORE BUTTON */
+
+.post-more-btn {
+    width: 38px;
+    height: 38px;
+    margin-left: auto;
+
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    color: var(--text-secondary);
+}
+
+
+
+/* DROPDOWN */
+
+.post-dropdown {
+    display: none;
+
+    position: absolute;
+
+    top: 45px;
+    right: 0;
+
+    width: 150px;
+
+    padding: 8px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+
+    z-index: 10;
+}
+
+
+/* SHOW DROPDOWN */
+
+.post-menu.active .post-dropdown {
+    display: block;
+}
+
+
+/* DROPDOWN LINKS AND BUTTON */
+
+.post-dropdown a,
+.post-dropdown button {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 10px;
+
+    border: none;
+    border-radius: 7px;
+
+    background: transparent;
+
+    color: var(--text-primary);
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+
+.post-dropdown a:hover,
+.post-dropdown button:hover {
+    background: var(--background);
+
+}
+
+
+.post-dropdown .delete-option {
+    color: #dc2626;
+}
+
+/* ==========================================
+   VISIBILITY
+========================================== */
+
+.post-visibility {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 7px 11px;
+
+    border-radius: 20px;
+
+    font-size: 13px;
+    font-weight: 500;
+}
+
+
+/* PUBLIC */
+
+.post-visibility.public {
+    background: rgba(34, 197, 94, 0.12);
+    color: #16a34a;
+}
+
+
+/* PRIVATE */
+
+.post-visibility.private {
+    background: rgba(100, 116, 139, 0.12);
+    color: var(--text-secondary);
+}
+
+
+/* ==========================================
+   POST BODY
+========================================== */
+
+.post-body {
+    margin-top: 22px;
+}
+
+
+.post-body h2 {
+    margin: 0 0 10px;
+
+    font-size: 22px;
+    font-weight: 600;
+
+    color: var(--text-primary);
+}
+
+
+.post-body p {
+    margin: 0;
+
+    color: var(--text-secondary);
+
+    font-size: 15px;
+    line-height: 1.7;
+
+    white-space: pre-line;
+}
+
+
+/* ==========================================
+   POST FOOTER
+========================================== */
+
+.post-footer {
+    margin-top: 22px;
+    padding-top: 16px;
+
+    border-top: 1px solid var(--border);
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    flex-wrap: wrap;
+}
+
+
+/* FOOTER BUTTONS */
+
+.post-footer button {
+    width: 40px;
+    height: 40px;
+
+    border: none;
+    background: transparent;
+
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    color: var(--text-secondary);
+
+    font-size: 17px;
+
+    transition: 0.2s ease;
+}
+
+
+.post-footer button:hover {
+    background: var(--background);
+    color: var(--primary);
+}
+
+
+
+/* ==========================================
+   EMPTY DIARY
+========================================== */
+
+.empty-diary {
+    text-align: center;
+
+    padding: 70px 20px;
+
+    border: 1px dashed var(--border);
+    border-radius: 18px;
+
+    background: var(--surface);
+}
+
+
+.empty-diary i {
+    font-size: 40px;
+    color: var(--primary);
+
+    margin-bottom: 15px;
+}
+
+
+.empty-diary h2 {
+    margin: 0 0 8px;
+
+    font-size: 20px;
+    color: var(--text-primary);
+}
+
+
+.empty-diary p {
+    margin: 0;
+
+    color: var(--text-secondary);
+}
+
+
+/* ==========================================
+   TABLET
+========================================== */
+
+@media (max-width: 900px) {
+
+    .diary-list {
+        padding: 0 20px;
+    }
+
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 600px) {
+
+    .diary-list {
+        margin-top: 20px;
+        padding: 0 15px;
+    }
+
+
+    .post-card {
+        padding: 16px;
+        border-radius: 14px;
+    }
+
+
+    .post-avatar {
+        width: 40px;
+        height: 40px;
+
+        font-size: 16px;
+    }
+
+
+    .post-body h2 {
+        font-size: 19px;
+    }
+
+
+    .post-body p {
+        font-size: 14px;
+    }
+
+
+    .post-visibility {
+        font-size: 12px;
+        padding: 6px 9px;
+    }
+
+}
+
+.like-form {
+    margin: 0;
+    padding: 0;
+}
+
+.post-action-btn .liked {
+    color: #e25555;
+}
+
+
+
+/* ==========================================
+   COMMENTS SECTION
+========================================== */
+
+.comments-section {
+    display: none;
+
+    margin-top: 24px;
+    padding-top: 20px;
+
+    border-top: 1px solid var(--border);
+}
+
+
+.comments-section.active {
+    display: block;
+}
+
+
+/* ==========================================
+   SINGLE COMMENT
+========================================== */
+
+.comment {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 10px;
+
+    margin-bottom: 16px;
+}
+
+
+/* COMMENT AVATAR */
+
+.comment-avatar {
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: var(--primary);
+    color: white;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/* COMMENT CONTENT */
+
+.comment-content {
+    flex: 1;
+
+    padding: 10px 14px;
+
+    background: var(--background);
+
+    border-radius: 12px;
+}
+
+
+.comment-content strong {
+    display: block;
+
+    margin-bottom: 4px;
+
+    font-size: 14px;
+    color: var(--text-primary);
+}
+
+
+.comment-content p {
+    margin: 0;
+
+    font-size: 14px;
+    line-height: 1.5;
+
+    color: var(--text-secondary);
+}
+
+
+.comment-content small {
+    display: block;
+
+    margin-top: 6px;
+
+    font-size: 12px;
+
+    color: var(--text-secondary);
+}
+
+
+/* NO COMMENTS */
+
+.no-comments {
+    margin: 0;
+
+    font-size: 14px;
+
+    color: var(--text-secondary);
+}
+
+
+/* ==========================================
+   COMMENT FORM
+========================================== */
+
+.comment-form {
+    display: none;
+
+    width: 100%;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 14px;
+    order: 10;
+}
+
+
+.comment-form.active {
+    display: flex;
+}
+
+
+/* COMMENT INPUT */
+
+.comment-form input {
+    flex: 1;
+
+    height: 42px;
+
+    padding: 0 16px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 22px;
+
+    outline: none;
+
+    background: var(--background);
+
+    color: var(--text-primary);
+
+    font-size: 14px;
+
+    transition: 0.2s ease;
+}
+
+
+.comment-form input:focus {
+    border-color: var(--primary);
+
+    background: var(--surface);
+}
+
+
+/* SUBMIT BUTTON */
+
+.comment-submit-btn {
+    width: 42px !important;
+    height: 42px !important;
+
+    flex-shrink: 0;
+
+    border: none;
+
+    border-radius: 50% !important;
+
+    background: var(--primary) !important;
+
+    color: white !important;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition: 0.2s ease;
+}
+
+
+.comment-submit-btn:hover {
+    background: var(--primary-dark) !important;
+
+    transform: scale(1.05);
+}
+
+
+/* Bookmark */
+
+.bookmark-form {
+    margin: 0;
+    padding: 0;
+}
+
+.post-action-btn .saved {
+    color: var(--primary);
+}

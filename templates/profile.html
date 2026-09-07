@@ -1,0 +1,636 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>View Profile</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/profile.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+
+</head>
+
+
+<body>
+
+    <header class="profile-navbar">
+
+    <a
+        href="{% url 'home' %}"
+        class="profile-back-btn"
+    >
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Back</span>
+    </a>
+
+    <h1>View Profile</h1>
+
+</header>
+
+<div class="profile-page">
+
+    <div class="profile-container">
+
+        <!-- ==========================================
+             PROFILE HEADER
+        =========================================== -->
+
+        <div class="profile-header">
+
+            <!-- Profile Image -->
+
+            <div class="profile-image-wrapper">
+
+                {% if request.user.profile_image %}
+
+                    <img
+                        src="{{ request.user.profile_image.url }}"
+                        alt="Profile Photo"
+                        class="profile-image"
+                    >
+
+                {% else %}
+
+                    <div class="profile-placeholder">
+                        {{ request.user.name|first|upper }}
+                    </div>
+
+                {% endif %}
+
+                <!-- Camera Button -->
+
+                <label
+                    for="profile_image"
+                    class="profile-camera-btn"
+                    title="Change profile photo"
+                >
+                    <i class="fa-solid fa-camera"></i>
+                </label>
+
+            </div>
+
+            <!-- Name -->
+
+            <h1>
+                {{ request.user.name }}
+            </h1>
+
+
+            <!-- Bio -->
+
+            {% if request.user.bio %}
+
+                <p class="profile-bio">
+                    {{ request.user.bio }}
+                </p>
+
+            {% else %}
+
+                <p class="profile-bio empty-bio">
+                    No bio added yet.
+                </p>
+
+            {% endif %}
+
+
+            <div class="profile-image-actions">
+
+    <!-- Upload Image -->
+    <form
+        method="POST"
+        action="{% url 'profile' %}"
+        enctype="multipart/form-data"
+        class="profile-image-form"
+    >
+        {% csrf_token %}
+
+        <input
+            type="file"
+            id="profile_image"
+            name="profile_image"
+            accept="image/*"
+            hidden
+        >
+
+        <label for="profile_image" class="profile-action-btn">
+            <i class="fa-solid fa-camera"></i>
+            Upload Image
+        </label>
+
+        <button type="submit" class="upload-submit-btn">
+            Save
+        </button>
+    </form>
+
+
+    <!-- Remove Profile Photo -->
+    {% if request.user.profile_image %}
+        <form
+            method="POST"
+            action="{% url 'profile' %}"
+            class="remove-profile-image-form"
+        >
+            {% csrf_token %}
+
+            <input
+                type="hidden"
+                name="remove_profile_image"
+                value="1"
+            >
+
+            <button
+                type="submit"
+                class="profile-action-btn remove-image-btn"
+            >
+                <i class="fa-solid fa-trash"></i>
+                Remove Photo
+            </button>
+        </form>
+        {% endif %}
+
+    </div>
+
+
+
+        </div>
+
+
+        <!-- ==========================================
+             PROFILE STATISTICS
+        =========================================== -->
+
+        <div class="profile-stats">
+
+            <!-- Diaries -->
+
+            <div class="stat">
+
+                <i class="fa-solid fa-book-open"></i>
+
+                <strong>
+                    {{ diary_count }}
+                </strong>
+
+                <span>
+                    Diaries
+                </span>
+
+            </div>
+
+
+            <!-- Friends -->
+
+            <div class="stat">
+
+                <i class="fa-solid fa-user-group"></i>
+
+                <strong>
+                    {{ friend_count }}
+                </strong>
+
+                <span>
+                    Friends
+                </span>
+
+            </div>
+
+
+            <!-- Joined -->
+
+            <div class="stat">
+
+                <i class="fa-solid fa-calendar"></i>
+
+                <strong>
+                    {{ request.user.created_at|date:"Y" }}
+                </strong>
+
+                <span>
+                    Joined
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==========================================
+             EDIT MODE
+        =========================================== -->
+
+        {% if edit_mode %}
+
+        <div class="profile-card">
+
+            <!-- Section Header -->
+
+            <div class="section-title">
+
+                <div class="section-icon">
+                    <i class="fa-solid fa-user-pen"></i>
+                </div>
+
+                <div>
+
+                    <h2>
+                        Edit Profile
+                    </h2>
+
+                    <p>
+                        Update your profile information.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Edit Form -->
+
+            <form
+                method="POST"
+                action="{% url 'profile' %}"
+                class="edit-profile-form"
+            >
+
+                {% csrf_token %}
+
+                <!-- This tells the view this is an edit request -->
+
+                <input
+                    type="hidden"
+                    name="save_profile"
+                    value="1"
+                >
+
+
+                <!-- ==================================
+                     NAME
+                =================================== -->
+
+                <div class="edit-form-group">
+
+                    <label for="name">
+                        Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value="{{ request.user.name }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- ==================================
+                     EMAIL
+                =================================== -->
+
+                <div class="edit-form-group">
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        value="{{ request.user.email }}"
+                        disabled
+                    >
+
+                    <small>
+                        Email cannot be changed.
+                    </small>
+
+                </div>
+
+
+                <!-- ==================================
+                     DATE OF BIRTH
+                =================================== -->
+
+                <div class="edit-form-group">
+
+                    <label for="date_of_birth">
+                        Date of Birth
+                    </label>
+
+                    <input
+                        type="date"
+                        id="date_of_birth"
+                        name="date_of_birth"
+                        value="{{ request.user.date_of_birth|date:'Y-m-d' }}"
+                    >
+
+                </div>
+
+
+                <!-- ==================================
+                     BIO
+                =================================== -->
+
+                <div class="edit-form-group">
+
+                    <label for="bio">
+                        Bio
+                    </label>
+
+                    <textarea
+                        id="bio"
+                        name="bio"
+                        rows="5"
+                        placeholder="Tell something about yourself..."
+                    >{{ request.user.bio|default:"" }}</textarea>
+
+                </div>
+
+
+                <!-- ==================================
+                     ACTION BUTTONS
+                =================================== -->
+
+                <div class="edit-profile-actions">
+
+                    <!-- Cancel -->
+
+                    <a
+                        href="{% url 'profile' %}"
+                        class="cancel-btn"
+                    >
+                        Cancel
+                    </a>
+
+
+                    <!-- Save -->
+
+                    <button
+                        type="submit"
+                        class="save-profile-btn"
+                    >
+                        <i class="fa-solid fa-check"></i>
+                        Save Changes
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        {% else %}
+
+
+        <!-- ==========================================
+             NORMAL ABOUT SECTION
+        =========================================== -->
+
+        <div class="profile-card">
+
+            <div class="section-title">
+
+                <div class="section-icon">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+
+                <div>
+
+                    <h2>
+                        About
+                    </h2>
+
+                    <p>
+                        Basic information about you.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="profile-details">
+
+
+                <!-- Name -->
+
+                <div class="detail-item">
+
+                    <div class="detail-icon">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+
+                    <div class="detail-content">
+
+                        <span>
+                            Name
+                        </span>
+
+                        <strong>
+                            {{ request.user.name }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Email -->
+
+                <div class="detail-item">
+
+                    <div class="detail-icon">
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+
+                    <div class="detail-content">
+
+                        <span>
+                            Email
+                        </span>
+
+                        <strong>
+                            {{ request.user.email }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Date of Birth -->
+
+            <div class="detail-item">
+
+                <div class="detail-icon">
+                    <i class="fa-solid fa-cake-candles"></i>
+                </div>
+
+                <div class="detail-content">
+
+                    <span>
+                        Date of Birth
+                    </span>
+
+                    {% if request.user.date_of_birth %}
+                        <strong>
+                            {{ request.user.date_of_birth|date:"F d, Y" }}
+                        </strong>
+                    {% else %}
+                        <strong class="empty-detail">
+                            Not added
+                        </strong>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+                <!-- Member Since -->
+
+                <div class="detail-item">
+
+                    <div class="detail-icon">
+                        <i class="fa-solid fa-calendar-days"></i>
+                    </div>
+
+                    <div class="detail-content">
+
+                        <span>
+                            Member Since
+                        </span>
+
+                        <strong>
+                            {{ request.user.created_at|date:"F Y" }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- ==========================================
+             NORMAL BIO SECTION
+        =========================================== -->
+
+        <div class="profile-card">
+
+            <div class="section-title">
+
+                <div class="section-icon">
+                    <i class="fa-solid fa-pen-nib"></i>
+                </div>
+
+                <div>
+
+                    <h2>
+                        Bio
+                    </h2>
+
+                    <p>
+                        A little about you.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="bio-content">
+
+                {% if request.user.bio %}
+
+                    <p>
+                        {{ request.user.bio }}
+                    </p>
+
+                {% else %}
+
+                    <p class="empty-bio">
+                        You haven't added a bio yet.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        {% endif %}
+
+
+        <!-- ==========================================
+             BOTTOM ACTIONS
+        =========================================== -->
+
+        <div class="profile-actions">
+
+            <!-- Settings -->
+
+            <a
+                href="{% url 'settings' %}"
+                class="secondary-btn"
+            >
+                Back to Settings
+            </a>
+
+
+            <!-- Edit / Cancel -->
+
+            {% if edit_mode %}
+
+                <a
+                    href="{% url 'profile' %}"
+                    class="secondary-btn"
+                >
+                    Cancel
+                </a>
+
+            {% else %}
+
+                <a
+                    href="?edit=1"
+                    class="primary-btn"
+                >
+                    <i class="fa-solid fa-pen"></i>
+                    Edit Profile
+                </a>
+
+            {% endif %}
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+</body>
+
+</html>

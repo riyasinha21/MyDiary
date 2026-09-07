@@ -1,0 +1,73 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Delete Account</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/delete_account.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+</head>
+
+<body>
+
+    <div class="delete-page">
+
+        <div class="delete-card">
+
+            <div class="delete-icon">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+
+            <h1>Delete your account?</h1>
+
+            <p class="warning-text">
+                This action cannot be undone.
+            </p>
+
+            <p class="description">
+                Your account and all associated data will be permanently
+                deleted, including your diaries, comments, likes,
+                bookmarks and other account activity.
+            </p>
+
+            <form
+                method="POST"
+                action="{% url 'delete_account' %}"
+            >
+                {% csrf_token %}
+
+                <div class="actions">
+
+                    <a href="{% url 'settings' %}" class="cancel-btn">
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="delete-btn"
+                    >
+                        Delete Permanently
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
