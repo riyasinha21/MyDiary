@@ -716,3 +716,10 @@
 .post-action-btn .saved {
     color: var(--primary);
 }
+
+
+.highlight-diary {
+    outline: 3px solid rgba(79, 127, 101, 0.45);
+    box-shadow: 0 0 0 6px rgba(79, 127, 101, 0.12);
+    transition: outline 0.3s ease, box-shadow 0.3s ease;
+}

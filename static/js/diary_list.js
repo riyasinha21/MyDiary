@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener("click", function () {
 
             const postCard =
-                button.closest(".post-card" ,".community-diary-card");
+                button.closest(".post-card, .community-diary-card");
 
 
             const commentForm =
@@ -139,5 +139,33 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
     }
+
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const params = new URLSearchParams(window.location.search);
+    const diaryId = params.get("diary");
+
+    if (!diaryId) {
+        return;
+    }
+
+    const diaryCard = document.getElementById(`diary-${diaryId}`);
+
+    if (!diaryCard) {
+        return;
+    }
+
+    diaryCard.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+
+    diaryCard.classList.add("highlight-diary");
+
+    setTimeout(function () {
+        diaryCard.classList.remove("highlight-diary");
+    }, 2500);
 
 });

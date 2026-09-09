@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 
@@ -7,9 +8,7 @@ from django.db.models import Q
 from .models import FriendRequest, Notification
 from diary.models import DiaryEntry, DiaryLike, DiaryComment, DiaryBookmark 
 
-
 User = get_user_model()
-
 
 
 @login_required
@@ -171,8 +170,6 @@ def decline_friend_request_view(request, request_id):
         
         friend_request.delete()
         
-        
-        
     return redirect("community")
 
 @login_required
@@ -329,10 +326,9 @@ def notification_redirect_view(request, notification_id):
 
     # Notifications related to a diary
     if notification.diary:
-
+        url = reverse("diary_list")
         return redirect(
-            "diary_detail",
-            id=notification.diary.id
+            f"{url}?diary={notification.diary.id}"     
         )
 
     # Friend request notification

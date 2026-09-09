@@ -4,4 +4,4 @@ __pycache__/
 *.pyc
 media/
 requirements.txt
-Issue.md
+accounts/Issue.md

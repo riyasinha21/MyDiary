@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from rapidfuzz import fuzz
 
 from .models import DiaryEntry, DiaryLike, DiaryComment, DiaryBookmark 
 from community.models import Notification , FriendRequest
@@ -430,25 +431,151 @@ def my_activity_view(request):
 def search_view(request):
     
     query = request.GET.get("q", "").strip()
-    
-    users = User.objects.none()
-    diaries = DiaryEntry.objects.none()
+ 
+    users = []
+    diaries = []
     
     if query:
         
         #search people
-        users = User.objects.filter(
-            name__icontains=query
-        ).exclude(
+        user_candidates = User.objects.exclude(
             id=request.user.id
         )
         
-        # Search public diaries
-        diaries = DiaryEntry.objects.filter(
-            Q(title__icontains=query) |
-            Q(content__icontains=query),
-            visibility="public"
-        ).select_related("user").order_by("-created_at")
+        user_results = []
+        
+        search_query = " ".join(query.lower().split())
+        
+        for user in user_candidates:
+            
+            user_name = " ".join(user.name.lower().split())
+            
+            name_parts = user_name.split()
+            
+            full_name_score = fuzz.ratio(
+                search_query,
+                user_name
+            )
+            
+            part_scores = []
+            
+            for part in name_parts:
+                if part.startswith(search_query):
+                    score = 100
+                
+                else:
+                    score = fuzz.ratio(
+                        search_query,
+                        part
+                    )
+                    
+                part_scores.append(score)
+                
+            best_part_score = max(
+                part_scores,
+                default=0
+            )
+            
+            score = max(
+                full_name_score,
+                best_part_score
+            )
+                
+            if score >= 70:
+                user_results.append(
+                    {
+                        "user" : user,
+                        "score" : score
+                    }
+                )
+                
+        # Sort users by highest score
+        user_results.sort(
+            key=lambda x: x["score"],
+            reverse=True
+        )
+            
+        users = [
+            item["user"]
+            for item in user_results
+        ]
+            
+        # Search Public Diaries
+        diary_candidates = DiaryEntry.objects.filter(
+            visibility = "public"
+        ).select_related(
+            "user"
+        )
+            
+        diary_results = []
+            
+        for diary in diary_candidates:
+                
+            title = " ".join(diary.title.lower().split())
+            content = " ".join(diary.content.lower().split())
+                
+            score = 0
+            
+            # Exact match in title
+            if search_query in title:
+                score = 100
+
+            # Exact match in content
+            elif search_query in content:
+                score = 90
+                
+            else:
+                
+                #check title words
+                title_parts = title.split()   
+                
+                for part in title_parts:
+                    
+                    if part.startswith(search_query):
+                        part_score = 100
+                    
+                    else:
+                        part_score = fuzz.ratio(
+                            search_query,
+                            part
+                        ) 
+                
+                    score = max(score, part_score)
+            
+                #check content words
+                content_parts = content.split()
+                
+                for part in content_parts:
+                    
+                    if part.startswith(search_query):
+                        part_score = 90
+                        
+                    else:
+                        part_score = fuzz.ratio(
+                            search_query,
+                            part
+                        )
+                        
+                    score = max(score, part_score)
+                    
+            if score >= 70:
+                diary_results.append(
+                    {
+                        "diary" : diary,
+                        "score" : score
+                    }
+                )
+               
+        # Sort diaries by highest score     
+        diary_results.sort(
+            key=lambda x: x["score"],
+            reverse=True
+        )
+            
+        diaries = [
+            item["diary"]
+            for item in diary_results
+        ]   
 
     return render(
         request,
